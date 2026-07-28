@@ -42,6 +42,7 @@ docs/INTEGRATIONS.md
 docs/LIMITATIONS.md
 docs/RELEASES.md
 docs/ROADMAP.md
+docs/assets/repository-preview.svg
 docs/index.md
 fixtures/blocked.json
 fixtures/expired.json

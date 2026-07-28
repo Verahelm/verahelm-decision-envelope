@@ -4,7 +4,7 @@ import { lstat, readFile, readdir } from "node:fs/promises";
 import { dirname, extname, relative, resolve } from "node:path";
 
 const root = resolve(new URL("../", import.meta.url).pathname);
-const textExtensions = new Set(["", ".cff", ".json", ".md", ".mjs", ".pem", ".txt", ".yml", ".yaml"]);
+const textExtensions = new Set(["", ".cff", ".json", ".md", ".mjs", ".pem", ".svg", ".txt", ".yml", ".yaml"]);
 const forbiddenNames = [
   /^\.git$/,
   /^\.env(?:\.|$)/,
@@ -67,6 +67,16 @@ for (const path of files) {
   assert(textExtensions.has(extname(path).toLowerCase()), `non-text artifact: ${name}`);
   const content = await readFile(path, "utf8");
   for (const pattern of secretPatterns) assert(!pattern.test(content), `secret-shaped content: ${name}`);
+  if (name.endsWith(".svg")) {
+    assert.match(content, /^<svg\b/u, `invalid SVG root: ${name}`);
+    for (const pattern of [
+      /<script\b/iu,
+      /<foreignObject\b/iu,
+      /\bon[a-z]+\s*=/iu,
+      /\b(?:href|xlink:href)\s*=\s*["'](?:https?:|\/\/|data:|javascript:)/iu,
+      /url\s*\(/iu
+    ]) assert(!pattern.test(content), `active or external SVG content: ${name}`);
+  }
   if (name.endsWith(".mjs")) {
     for (const pattern of executablePatterns) assert(!pattern.test(content), `egress/subprocess surface: ${name}`);
   }

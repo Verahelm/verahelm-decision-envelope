@@ -10,4 +10,4 @@ Accepted work remains inside the public verification boundary:
 
 Out of scope: evaluation logic, scoring, evidence interpretation, hosted-service internals, production configuration, customer data, and deployment policy.
 
-Use Discussions for contract questions after the repository owner enables it. Use the adapter-request template for proposed evidence producers.
+Use Discussions for contract questions. Use the adapter-request template for proposed evidence producers.

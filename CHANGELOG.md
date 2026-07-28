@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Added a static repository preview aligned with the website visual system.
+- Clarified the current release-signing status and Discussions channel.
+
 ## 0.4.0 — 2026-07-28
 
 - Added an offline verification quickstart and pull-request workflow.

@@ -1,5 +1,7 @@
 # Verahelm Decision Envelope
 
+![Verahelm Decision Envelope: signed, subject-bound, expiring change authorization](docs/assets/repository-preview.svg)
+
 Test results, security findings, policy decisions, and review notes show what was
 checked. They do not by themselves record who authorized a particular change,
 the scope of that authorization, or when it expires.
