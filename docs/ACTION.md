@@ -24,7 +24,7 @@ The semantic tag is convenient and immutable for this release:
 For maximum source pinning, use the full release commit:
 
 ```yaml
-- uses: Verahelm/verahelm-decision-envelope@c45bee9dbfa2587ccfa8735d5138ddc51273961c
+- uses: Verahelm/verahelm-decision-envelope@75e51dbc75a6c0f65a773b1beb8cf4ee18353f98
 ```
 
 The immutable semantic tag cannot be moved while its release exists. A full

@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Updated immutable Action pins to the `v0.10.1` source commit and routed
+  vulnerability reports directly to GitHub private reporting.
+
 ## 0.10.1 — 2026-07-29
 
 - Prepared the verified Action for GitHub Marketplace publication without

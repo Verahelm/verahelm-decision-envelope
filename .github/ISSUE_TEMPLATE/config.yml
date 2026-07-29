@@ -1,5 +1,5 @@
 blank_issues_enabled: false
 contact_links:
   - name: Security report
-    url: https://www.verahelm.com/security
-    about: Do not disclose vulnerabilities in a public issue.
+    url: https://github.com/Verahelm/verahelm-decision-envelope/security/advisories/new
+    about: Report vulnerabilities privately. Do not disclose them in a public issue.
