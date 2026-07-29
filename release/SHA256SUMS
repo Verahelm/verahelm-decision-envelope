@@ -34,7 +34,7 @@ c119ee87ecc4ec32cd8619059b2aa07612ede760426f5f920b0073e8615e72d3  ./demo-pr/READ
 7983dcffbe35c8daa91ac0d56980cdb8c08e7303ba4b98d2233b7809f1ccf6b4  ./docs/CLI.md
 ae4964528124b06851578e538401a0317249aef099c80f51457964fd55f05192  ./docs/COMPARISON.md
 a461a2bf1b5fcd4eae0304e435ea1b00ddab6783577203fee5c9447fef42443c  ./docs/INTEGRATIONS.md
-552dcf7e7af9a75dc2e8e8312237a52d9c1bc4a5616caf1907cacf47deb67d71  ./docs/INTEROPERABILITY.md
+3aae64cb787da408e213854219a5232fdfdffbb5fc64aa85480a5b38c34ef84d  ./docs/INTEROPERABILITY.md
 1da5e4dee603519d56f03df548f13c6f5bbc1ef48c10b098194546ba8f1d8767  ./docs/LIMITATIONS.md
 69400db67d71d5a44a182cb29c1dfa9a074c30f34a42b517973dc53000d3ae29  ./docs/MEASUREMENT.md
 5d7067b14c9616cdf2e2a19a12cc403bb3012040091c5de0ebb7ddf7729ad7ac  ./docs/PACKAGE.md
@@ -47,7 +47,7 @@ c6595ca0778684b593b17fdf26769acbfe76a5949a71616ecaa386320bf183ac  ./docs/ROADMAP
 f0ac3e23093fe41fd0f62568e97a330040d93c29d06864ddaca6e90637eb85ad  ./examples/integrations/report.sarif.json
 0d459cea224e285ddbfaa631ec573044f263c0b52687f1a75f26ef88fae8472e  ./examples/integrations/sigstore-bundle-reference.json
 21966cdc9e64450da2a0f6c61d94fa2652002acba10baf709db8e3f59c2702bc  ./examples/integrations/slsa-provenance-reference.json
-1df042ca19c4162492a0c7627f41fad0f39f1253672a3328cf2c0090b451d147  ./examples/interoperability/in-toto-envelope-reference.json
+fc36857823e833fb992b51dfe68d6bcbc85b096b2579045f54d313854095093d  ./examples/interoperability/in-toto-envelope-reference.json
 2144aa0bfb18b0c73dcdec98e65a3b89f5c44c61155e007dc216c1e698ed30ee  ./examples/measurement/fictional-contributions.json
 ddd5206335ed773f03c92d2baf3c90023672bdb7c550b3f17acb9295eda28d72  ./fixtures/blocked.json
 922bef3cbffc40d7f2837a0657eb90f9abe4dcbcdc75a7131d06b3e4dfa3cde7  ./fixtures/expired.json

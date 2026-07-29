@@ -6,7 +6,7 @@
     },
     "nativeLifecycleStatusRequired": true
   },
-  "predicateType": "https://verahelm.example/predicate/decision-envelope-reference/v1",
+  "predicateType": "urn:verahelm:example:decision-envelope-reference:v1",
   "subject": [
     {
       "digest": {

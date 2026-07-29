@@ -25,8 +25,8 @@ compatibility or replace native verification.
 [`in-toto-envelope-reference.json`](../examples/interoperability/in-toto-envelope-reference.json)
 is a fictional in-toto Statement v1. It binds a fictional subject digest to a
 fictional Decision Envelope digest and declares that native lifecycle status
-is still required. Its `verahelm.example` predicate identifier is illustrative,
-not a registered or hosted specification.
+is still required. Its `urn:verahelm:example` predicate identifier is
+illustrative, not a registered specification.
 
 ## Signature and canonicalization
 
