@@ -161,7 +161,9 @@ assert.doesNotMatch(workflow, /pull-requests: write|contents: write|id-token: wr
 assert.match(releaseWorkflow, /actions\/checkout@[0-9a-f]{40}/);
 assert.match(releaseWorkflow, /actions\/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1/);
 assert.match(releaseWorkflow, /actions\/attest-build-provenance@[0-9a-f]{40}/);
-assert.match(releaseWorkflow, /permissions:\s*\n\s*contents: write\s*\n\s*id-token: write\s*\n\s*attestations: write/);
+assert.match(releaseWorkflow, /permissions: read-all/);
+assert.match(releaseWorkflow,
+  /publish:\s*\n\s*runs-on: ubuntu-latest\s*\n\s*timeout-minutes: 10\s*\n\s*permissions:\s*\n\s*contents: write\s*\n\s*id-token: write\s*\n\s*attestations: write/);
 assert.match(releaseWorkflow, /gh release create[\s\S]*--draft/);
 assert.match(releaseWorkflow, /gh release edit[\s\S]*--draft=false/);
 assert.doesNotMatch(releaseWorkflow, /uses:\s+(?!actions\/(?:checkout|attest-build-provenance)@)/);
