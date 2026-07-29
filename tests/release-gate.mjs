@@ -173,10 +173,11 @@ assert.match(packageWorkflow, /actions\/checkout@3d3c42e5aac5ba805825da76410c181
 assert.match(packageWorkflow, /actions\/setup-node@820762786026740c76f36085b0efc47a31fe5020/);
 assert.match(packageWorkflow, /os: \[ubuntu-latest, macos-latest, windows-latest\]/);
 assert.match(packageWorkflow, /node: \[20, 22, 24\]/);
-assert.match(packageWorkflow, /npm install --ignore-scripts/);
 assert.match(packageWorkflow,
-  /node \.\/node_modules\/verahelm-decision-envelope\/cli\/verahelm\.mjs demo/);
-assert.doesNotMatch(packageWorkflow, /\bnpx\b/);
+  /tar -xzf \.\/verahelm-decision-envelope-0\.10\.0\.tgz -C package-test/);
+assert.match(packageWorkflow,
+  /node \.\/package-test\/package\/cli\/verahelm\.mjs demo/);
+assert.doesNotMatch(packageWorkflow, /\bnpm (?:ci|install|update)\b|\bnpx\b/);
 assert.match(packageWorkflow, /permissions:\s*\n\s*contents: read/);
 assert.match(codeqlWorkflow, /github\/codeql-action\/init@e58424170fb0262c8d7ed60a2e84b9bffe205c67/);
 assert.match(codeqlWorkflow, /github\/codeql-action\/analyze@e58424170fb0262c8d7ed60a2e84b9bffe205c67/);
