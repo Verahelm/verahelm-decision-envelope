@@ -125,7 +125,7 @@ const releaseWorkflow = await readPublic(".github/workflows/release.yml");
 const packageWorkflow = await readPublic(".github/workflows/package.yml");
 const actionMetadata = await readPublic("action.yml");
 const actionContract = await readPublic("docs/ACTION.md");
-assert.equal(packageDocument.version, "0.7.0");
+assert.equal(packageDocument.version, "0.8.0");
 assert.equal(packageDocument.name, "verahelm-decision-envelope");
 assert.equal(packageDocument.description,
   "Offline verifier and GitHub Action for Verahelm Decision Envelopes.");

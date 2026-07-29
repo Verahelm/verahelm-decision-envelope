@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+## 0.8.0 — 2026-07-28
+
+- Hardened the default-deny release gate with generated-file, dependency,
+  credential-assignment, and negative-control checks.
+- Added mechanically tested digest-only recipes for Promptfoo, OPA, SARIF,
+  Sigstore references, and SLSA provenance references.
+- Added a conservative DSSE and in-toto semantic mapping with explicit
+  conversion and lifecycle limits.
+- Added an offline opt-in pilot-measurement tool with strict input rejection,
+  ten-contributor suppression, and aggregate-only output.
+
 ## 0.7.0 — 2026-07-28
 
 - Added a version-pinned zero-install CLI package route.

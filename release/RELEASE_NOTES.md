@@ -1,6 +1,7 @@
-# Verahelm Decision Envelope v0.7.0
+# Verahelm Decision Envelope v0.8.0
 
-This release adds a version-pinned zero-install CLI package route.
+This release adds public-safe interoperability recipes, stronger disclosure
+gates, and local aggregate pilot measurement.
 
 Included:
 
@@ -11,6 +12,11 @@ Included:
 - a five-minute fictional demonstration;
 - bounded `status` and string-boolean `valid` Action outputs;
 - a dependency-free CLI package with no lifecycle scripts.
+- tested digest-only mappings for Promptfoo, OPA, SARIF, Sigstore references,
+  and SLSA provenance references;
+- a documented DSSE and in-toto semantic mapping;
+- a local, opt-in, aggregate-only measurement tool;
+- in-memory negative controls for the default-deny release boundary.
 
 The release does not contain Verahelm's hosted decision engine, private methods,
 customer material, or real engine output. Verification authenticates the
@@ -20,10 +26,10 @@ underlying evidence is true or sufficient.
 ## Verify
 
 ```bash
-gh release download v0.7.0 --repo Verahelm/verahelm-decision-envelope
+gh release download v0.8.0 --repo Verahelm/verahelm-decision-envelope
 sha256sum --check SHA256SUMS
-gh attestation verify verahelm-decision-envelope-0.7.0.tar.gz --repo Verahelm/verahelm-decision-envelope
-gh attestation verify verahelm-decision-envelope-0.7.0.tgz --repo Verahelm/verahelm-decision-envelope
+gh attestation verify verahelm-decision-envelope-0.8.0.tar.gz --repo Verahelm/verahelm-decision-envelope
+gh attestation verify verahelm-decision-envelope-0.8.0.tgz --repo Verahelm/verahelm-decision-envelope
 ```
 
 `SOURCE_COMMIT` identifies the exact source revision. The immutable GitHub
