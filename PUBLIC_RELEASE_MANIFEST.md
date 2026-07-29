@@ -23,6 +23,7 @@ GOVERNANCE.md
 LICENSE
 LICENSES/Apache-2.0.txt
 PRIVACY_BOUNDARY.md
+PUBLIC_DISCLOSURE_CHECKLIST.md
 PUBLIC_RELEASE_MANIFEST.md
 README.md
 SECURITY.md
@@ -91,6 +92,8 @@ Excluded categories include private methods, scoring, rules, thresholds, weights
 - No `.git`, VCS metadata, symlink, executable file, archive, source map, binary, dependency directory, or build output.
 - No network or subprocess capability in executable JavaScript.
 - No private key or common credential pattern.
+- No suspicious high-entropy value assigned to a credential-like field.
+- In-memory negative controls prove representative secret and forbidden-file checks fail closed.
 - The exact file set equals this allowlist; additions fail closed.
 - All JSON parses; all seven fixtures are fictional and pass the applicable contract or lifecycle test.
 - Release gate: `node tests/release-gate.mjs`.

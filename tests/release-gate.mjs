@@ -7,11 +7,15 @@ const root = resolve(new URL("../", import.meta.url).pathname);
 const textExtensions = new Set(["", ".cff", ".json", ".md", ".mjs", ".pem", ".svg", ".txt", ".yml", ".yaml"]);
 const forbiddenNames = [
   /^\.git$/,
+  /^\.DS_Store$/,
   /^\.env(?:\.|$)/,
   /^node_modules$/,
   /^dist$/,
   /^coverage$/,
   /^cache$/,
+  /^package-lock\.json$/,
+  /^npm-debug\.log$/i,
+  /(?:\.orig|\.rej|\.swp|~)$/i,
   /\.log$/i,
   /\.map$/i,
   /\.(zip|tar|tgz|gz|7z|wasm|bin)$/i,
@@ -28,6 +32,25 @@ const executablePatterns = [
   /node:(?:http|https|net|tls|dns|dgram|child_process)/,
   /\b(?:fetch|WebSocket|XMLHttpRequest|spawn|execFile|execSync|spawnSync)\s*\(/
 ];
+
+function shannonEntropy(value) {
+  const counts = new Map();
+  for (const character of value) counts.set(character, (counts.get(character) ?? 0) + 1);
+  return [...counts.values()].reduce((sum, count) => {
+    const probability = count / value.length;
+    return sum - probability * Math.log2(probability);
+  }, 0);
+}
+
+function containsSuspiciousAssignedSecret(content) {
+  const assignments = content.matchAll(
+    /\b(?:api[_-]?key|access[_-]?token|auth[_-]?token|client[_-]?secret|password)\b\s*[:=]\s*["']([^"' \r\n]{24,})["']/giu
+  );
+  for (const [, candidate] of assignments) {
+    if (new Set(candidate).size >= 12 && shannonEntropy(candidate) >= 3.5) return true;
+  }
+  return false;
+}
 
 async function walk(directory) {
   const files = [];
@@ -67,6 +90,7 @@ for (const path of files) {
   assert(textExtensions.has(extname(path).toLowerCase()), `non-text artifact: ${name}`);
   const content = await readFile(path, "utf8");
   for (const pattern of secretPatterns) assert(!pattern.test(content), `secret-shaped content: ${name}`);
+  assert(!containsSuspiciousAssignedSecret(content), `high-entropy credential assignment: ${name}`);
   if (name.endsWith(".svg")) {
     assert.match(content, /^<svg\b/u, `invalid SVG root: ${name}`);
     for (const pattern of [
@@ -93,6 +117,7 @@ for (const path of localLinks) await lstat(path);
 const readPublic = (path) => readFile(resolve(root, path), "utf8");
 const packageDocument = JSON.parse(await readPublic("package.json"));
 const readme = await readPublic("README.md");
+const disclosureChecklist = await readPublic("PUBLIC_DISCLOSURE_CHECKLIST.md");
 const versioning = await readPublic("VERSIONING.md");
 const license = await readPublic("LICENSE");
 const workflow = await readPublic(".github/workflows/verify.yml");
@@ -139,6 +164,7 @@ assert.match(packageWorkflow, /npm install --ignore-scripts/);
 assert.match(packageWorkflow, /permissions:\s*\n\s*contents: read/);
 assert.deepEqual(packageDocument.bin, { "verahelm-envelope": "cli/verahelm.mjs" });
 assert.deepEqual(packageDocument.dependencies ?? {}, {});
+assert.deepEqual(packageDocument.devDependencies ?? {}, {});
 for (const name of ["preinstall", "install", "postinstall", "prepare"]) {
   assert.equal(packageDocument.scripts[name], undefined);
 }
@@ -154,6 +180,19 @@ for (const input of [
 ]) assert.match(actionContract, new RegExp(`\\| \\\`${input}\\\` \\|`));
 assert.match(actionContract, /performs offline verification\s+only/);
 assert.match(actionContract, /does not call Verahelm's hosted service/);
+assert.match(disclosureChecklist, /Synthetic or fictional data only/);
+assert.match(disclosureChecklist, /Owner approval is recorded before publication/);
+assert.match(manifest, /Publication remains an owner-controlled action/);
+
+// In-memory negative controls ensure the disclosure checks fail closed without
+// adding usable credentials or prohibited artifacts to the repository.
+const generatedCredential = ["vK7_", "pQ9-", "xR2_", "mN8-", "cT4_", "zL6-"].join("");
+assert(containsSuspiciousAssignedSecret(`api_key="${generatedCredential}"`));
+assert(forbiddenNames.some((pattern) => pattern.test(".env.local")));
+assert(forbiddenNames.some((pattern) => pattern.test("bundle.zip")));
+assert(secretPatterns.some((pattern) => pattern.test(
+  ["-----BEGIN ", "PRIVATE KEY-----"].join("")
+)));
 
 for (const name of ["pass", "blocked", "expired", "tampered"]) {
   const fixture = JSON.parse(await readFile(resolve(root, "fixtures", `${name}.json`), "utf8"));
