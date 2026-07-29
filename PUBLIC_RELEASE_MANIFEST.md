@@ -45,6 +45,7 @@ docs/COMPARISON.md
 docs/INTEGRATIONS.md
 docs/INTEROPERABILITY.md
 docs/LIMITATIONS.md
+docs/MEASUREMENT.md
 docs/PACKAGE.md
 docs/RELEASES.md
 docs/ROADMAP.md
@@ -56,6 +57,7 @@ examples/integrations/report.sarif.json
 examples/integrations/sigstore-bundle-reference.json
 examples/integrations/slsa-provenance-reference.json
 examples/interoperability/in-toto-envelope-reference.json
+examples/measurement/fictional-contributions.json
 fixtures/blocked.json
 fixtures/expired.json
 fixtures/fixture-public-key.json
@@ -64,6 +66,7 @@ fixtures/pass.json
 fixtures/revoked-status.json
 fixtures/superseded-status.json
 fixtures/tampered.json
+measurement/aggregate.mjs
 package.json
 release/SBOM.spdx.json
 release/RELEASE_NOTES.md
@@ -71,11 +74,13 @@ release/REPRODUCIBLE_BUILD.md
 release/SHA256SUMS
 schemas/decision-envelope.schema.json
 schemas/decision-status.schema.json
+schemas/measurement-contribution.schema.json
 template/README.md
 template/verahelm-change-gate.yml
 tests/cli.mjs
 tests/conformance.mjs
 tests/integrations.mjs
+tests/measurement.mjs
 tests/package.mjs
 tests/release-gate.mjs
 verifier/json.mjs

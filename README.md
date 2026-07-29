@@ -177,6 +177,7 @@ effort with no response-time SLA.
 - [GitHub Action contract](docs/ACTION.md)
 - [Digest-only integration recipes](docs/INTEGRATIONS.md)
 - [DSSE and in-toto mapping](docs/INTEROPERABILITY.md)
+- [Opt-in aggregate measurement](docs/MEASUREMENT.md)
 - [Threat model](THREAT_MODEL.md)
 - [Versioning policy](VERSIONING.md)
 - [GitHub and attestation integration](docs/INTEGRATIONS.md#github-change-enforcement)

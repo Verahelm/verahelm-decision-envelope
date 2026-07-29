@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://verahelm.com/schemas/measurement-contribution-1.0.json",
+  "title": "Opt-in aggregate measurement contribution",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "contribution_id", "consent", "metrics"],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "contribution_id": {
+      "type": "string",
+      "pattern": "^(fictional-[0-9]{2}|c_[0-9a-f]{32})$"
+    },
+    "consent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["granted", "notice_version"],
+      "properties": {
+        "granted": {
+          "const": true
+        },
+        "notice_version": {
+          "const": "1.0"
+        }
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "setup_time_seconds": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 86400
+        },
+        "stale_decision_reuse_prevented": {
+          "type": "boolean"
+        },
+        "verification_consistent": {
+          "type": "boolean"
+        },
+        "verification_succeeded": {
+          "type": "boolean"
+        },
+        "willingness_to_pay": {
+          "enum": ["yes", "unsure", "no", "declined"]
+        }
+      }
+    }
+  }
+}
