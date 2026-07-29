@@ -39,7 +39,7 @@ steps:
       SUBJECT_ID: ${{ github.repository }}
       SUBJECT_REVISION: ${{ github.event.pull_request.head.sha }}
     run: printf 'version=sha256:%s\n' "$(printf '%s' \"$SUBJECT_ID@$SUBJECT_REVISION\" | sha256sum | cut -d' ' -f1)" >> "$GITHUB_OUTPUT"
-  - uses: Verahelm/verahelm-decision-envelope@687242490be7bd3e41def2dbd75d3bb29d0a4def
+  - uses: Verahelm/verahelm-decision-envelope@33ca2a95808491a1f0d13a5aa2433e911d4582c3
     with:
       envelope: path/to/decision-envelope.json
       public-key: path/to/public-key.pem

@@ -16,7 +16,7 @@ organization-signed provenance unless its signature is independently verified.
 Consumers should pin the Action to the full 40-character commit SHA:
 
 ```yaml
-- uses: Verahelm/verahelm-decision-envelope@687242490be7bd3e41def2dbd75d3bb29d0a4def
+- uses: Verahelm/verahelm-decision-envelope@33ca2a95808491a1f0d13a5aa2433e911d4582c3
 ```
 
 The pin identifies the reviewed Action implementation. Documentation-only
