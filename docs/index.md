@@ -2,18 +2,39 @@
 title: Verahelm Decision Envelope
 ---
 
-# AI change gates for pull requests
+# Signed change decisions for pull requests
 
-Verahelm records change authority in a signed Decision Envelope bound to a
-subject version, scope, conditions, and expiry.
+Verahelm verifies whether a signed authorization record is valid for the exact
+pull request or agent change under review.
 
-The public package validates these envelopes locally. It does not contain or
-reproduce the hosted decision engine.
+## Inspect the workflow
+
+- [Fictional blocked pull request](https://github.com/Verahelm/verahelm-decision-envelope-demo/pull/1)
+- [Fictional passing pull request](https://github.com/Verahelm/verahelm-decision-envelope-demo/pull/2)
+- [Verification Action on GitHub Marketplace](https://github.com/marketplace/actions/verahelm-decision-envelope-verifier)
+
+Both pull requests use prebuilt fictional records. Neither result came from
+Verahelm's private engine.
+
+## Run locally
+
+Requires Git and Node.js 20 or later.
 
 ```bash
-node cli/verahelm.mjs demo
-node cli/verahelm.mjs validate fixtures/pass.json
-node cli/verahelm.mjs verify fixtures/pass.json --key fixtures/fixture-public-key.pem
+git clone --depth 1 https://github.com/Verahelm/verahelm-decision-envelope.git && cd verahelm-decision-envelope && node cli/verahelm.mjs demo
 ```
 
-[Marketplace Action](https://github.com/marketplace/actions/verahelm-decision-envelope-verifier) · [Pinned workflow](../README.md#add-the-verifier-to-a-pull-request) · [Pilot](PILOT.md) · [Enterprise review](ENTERPRISE_REVIEW.md) · [Specification](../SPECIFICATION.md) · [Integration recipes](INTEGRATIONS.md) · [Standards mapping](INTEROPERABILITY.md) · [Opt-in measurement](MEASUREMENT.md) · [Threat model](../THREAT_MODEL.md) · [Privacy boundary](../PRIVACY_BOUNDARY.md) · [API documentation](https://www.verahelm.com/api-docs)
+Expected fictional output:
+
+```json
+{"status":"demo_complete","results":[{"fixture":"pass","status":"pass"},{"fixture":"blocked","status":"blocked"},{"fixture":"expired","status":"expired"},{"fixture":"tampered","status":"tampered"}]}
+```
+
+Successful verification proves schema, signature, lifecycle, and expected
+binding checks at verification time. It does not prove the truth or quality of
+underlying evidence, issue a hosted decision, or discover a later revocation
+without sufficiently fresh signed status.
+
+## Continue
+
+[Pinned workflow](https://github.com/Verahelm/verahelm-decision-envelope#add-the-verifier-to-a-pull-request) · [Testing key](https://www.verahelm.com/access#testing-key) · [Pilot](PILOT.md) · [API documentation](https://www.verahelm.com/api-docs) · [Integration recipes](INTEGRATIONS.md) · [Specification](../SPECIFICATION.md) · [Threat model](../THREAT_MODEL.md) · [Privacy boundary](../PRIVACY_BOUNDARY.md)

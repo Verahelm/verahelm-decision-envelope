@@ -2,6 +2,12 @@
 
 Verahelm verifies whether a signed authorization record is valid for the exact pull request or agent change under review.
 
+[Inspect a fictional blocked pull request](https://github.com/Verahelm/verahelm-decision-envelope-demo/pull/1)
+·
+[Inspect a fictional passing pull request](https://github.com/Verahelm/verahelm-decision-envelope-demo/pull/2)
+·
+[Install the verification Action](https://github.com/marketplace/actions/verahelm-decision-envelope-verifier)
+
 ## Five-minute quick start
 
 Requires Git and Node.js 20 or later.

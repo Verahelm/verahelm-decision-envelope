@@ -1,5 +1,5 @@
 name: Verahelm Decision Envelope verifier
-description: Verify one Decision Envelope offline; no evaluation or authorization is performed.
+description: Verify signed, revision-bound change authorization offline in pull-request workflows.
 author: Verahelm Holdings LLC
 inputs:
   envelope:
