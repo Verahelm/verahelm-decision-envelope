@@ -4,6 +4,7 @@ import { lstat, open, realpath } from "node:fs/promises";
 import { isAbsolute, relative, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { verifyEnvelope } from "../verifier/verify.mjs";
+import { decodeUtf8, parseJsonStrict } from "../verifier/json.mjs";
 
 async function repositoryFile(workspace, input, fallback, maximum) {
   const requested = input || fallback;
@@ -19,7 +20,7 @@ async function repositoryFile(workspace, input, fallback, maximum) {
   try {
     const bytes = await file.readFile();
     return {
-      text: bytes.toString("utf8"),
+      text: decodeUtf8(bytes),
       digest: `sha256:${createHash("sha256").update(bytes).digest("hex")}`
     };
   } finally {
@@ -33,12 +34,24 @@ export async function verifyAction(env = process.env) {
     env[`INPUT_${name.replaceAll("-", "_").toUpperCase()}`] ?? "";
   const subjectId = input("subject-id");
   const subjectVersion = input("subject-version");
+  const authorityId = input("authority-id");
+  const scopeEnvironment = input("scope-environment");
+  const scopeChange = input("scope-change");
   const expectedKeyDigest = input("public-key-sha256");
+  const statusMaximumAge = input("status-max-age-seconds");
   if (!subjectId || subjectId.length > 160 || !/^sha256:[a-f0-9]{64}$/.test(subjectVersion)) {
     throw new Error("subject_binding_required");
   }
+  if (!authorityId || authorityId.length > 160 ||
+      !scopeEnvironment || scopeEnvironment.length > 80 ||
+      !scopeChange || scopeChange.length > 240) {
+    throw new Error("authorization_binding_required");
+  }
   if (!/^sha256:[a-f0-9]{64}$/.test(expectedKeyDigest)) {
     throw new Error("public_key_fingerprint_required");
+  }
+  if (statusMaximumAge && !/^(?:0|[1-9]\d{0,14})$/u.test(statusMaximumAge)) {
+    throw new Error("status_freshness_policy");
   }
   const [documentFile, publicKeyFile, statusFile] = await Promise.all([
     repositoryFile(workspace, input("envelope"), "decision-envelope.json", 131072),
@@ -49,11 +62,18 @@ export async function verifyAction(env = process.env) {
     throw new Error("public_key_fingerprint_mismatch");
   }
   return verifyEnvelope(
-    JSON.parse(documentFile.text),
+    parseJsonStrict(documentFile.text),
     publicKeyFile.text,
     input("at") ? new Date(input("at")) : new Date(),
-    statusFile ? JSON.parse(statusFile.text) : null,
-    { subjectId, subjectVersion }
+    statusFile ? parseJsonStrict(statusFile.text) : null,
+    {
+      subjectId,
+      subjectVersion,
+      authorityId,
+      scopeEnvironment,
+      scopeChange,
+      ...(statusMaximumAge ? { statusMaxAgeSeconds: Number(statusMaximumAge) } : {})
+    }
   );
 }
 

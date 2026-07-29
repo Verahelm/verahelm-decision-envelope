@@ -30,3 +30,6 @@ jobs:
           public-key-sha256: ${{ vars.VERAHELM_PUBLIC_KEY_SHA256 }}
           subject-id: ${{ github.repository }}
           subject-version: ${{ steps.subject.outputs.version }}
+          authority-id: ${{ vars.VERAHELM_AUTHORITY_ID }}
+          scope-environment: ${{ vars.VERAHELM_SCOPE_ENVIRONMENT }}
+          scope-change: pull-request-${{ github.event.pull_request.number }}

@@ -16,11 +16,23 @@ inputs:
   status:
     description: Optional repository-relative signed lifecycle-status document
     required: false
+  status-max-age-seconds:
+    description: Optional maximum age for the signed status; requires status
+    required: false
   subject-id:
     description: Expected subject identifier
     required: true
   subject-version:
     description: Expected immutable subject-version digest
+    required: true
+  authority-id:
+    description: Expected customer authority identifier from trusted configuration
+    required: true
+  scope-environment:
+    description: Expected authorized environment from trusted configuration
+    required: true
+  scope-change:
+    description: Expected authorized change identifier from trusted workflow context
     required: true
 runs:
   using: node20

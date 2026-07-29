@@ -7,6 +7,10 @@ followed by the SHA-256 fingerprint of the exact trusted key file. Repository
 variables are configuration, not pull-request content. Protect changes to the
 workflow and required-check settings.
 
+Set `VERAHELM_AUTHORITY_ID` and `VERAHELM_SCOPE_ENVIRONMENT` from trusted
+configuration. The template also requires the signed `scope.change` to equal
+`pull-request-<pull-request-number>`.
+
 Generate the value locally:
 
 ```bash
@@ -22,3 +26,8 @@ steps that execute scripts, installers, builds, or other content from the
 proposed revision.
 
 The template verifies signed state only. It does not generate evidence, issue authorizations, or enforce listed conditions.
+
+The template is not, by itself, a complete production authorization policy. A
+production workflow must obtain signed status through a trusted process,
+configure `status-max-age-seconds`, and enforce every condition. Do not accept
+a status file merely because it is present in pull-request content.

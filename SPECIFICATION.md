@@ -18,28 +18,41 @@ A Decision Envelope carries a signed, bounded authorization record. It reference
 - `issuer`: public issuer and key identifier.
 - `signature`: Ed25519 signature over canonical `payload`.
 
-Objects reject undeclared properties. Timestamps are UTC RFC 3339 values. Digests use `sha256:` plus 64 lowercase hexadecimal characters.
+Objects reject undeclared properties and duplicate JSON keys. Input must be
+valid UTF-8. Timestamps are UTC RFC 3339 values ending in `Z`, with zero to
+three fractional-second digits. Digests use `sha256:` plus 64 lowercase
+hexadecimal characters. String fields reject unpaired Unicode surrogates.
 Repeated evidence references and repeated conditions are rejected.
 
 For the verification-only GitHub Action, `subject.version` is the SHA-256 digest
 of the UTF-8 string `<owner/repository>@<head-revision>`. The template derives
-this value from trusted workflow context. The Action fails when either expected
-subject binding differs from the signed envelope.
+this value from trusted workflow context. The Action fails when the expected
+subject, authority, environment, or change differs from the signed envelope.
 
 ## Canonical form
 
 The signature input is UTF-8 JSON with:
 
-1. object keys sorted by Unicode code-point order;
+1. object keys sorted lexicographically; every schema-defined key is ASCII, for
+   which JavaScript code-unit and Unicode code-point order are identical;
 2. arrays retained in source order;
 3. no insignificant whitespace;
 4. JSON scalar encoding.
 
 The included verifier is the executable reference for this contract.
 
+The schemas define field shape. The verifier additionally checks cross-field
+relations including lifecycle order, identifier binding, key identifiers,
+self-supersession, and duplicate references.
+
 The verification key is a trust anchor. Pull-request content may supply a key
 file only when its exact SHA-256 fingerprint is independently configured and
 checked outside pull-request content.
+
+An optional signed status document can be checked against a caller-supplied
+maximum age. Configuring a maximum age requires a status document; an older
+status fails with `status_stale`. Without that policy, status authenticity is
+verified but freshness is not established.
 
 ## Fail-closed result order
 
@@ -53,6 +66,6 @@ checked outside pull-request content.
 8. declared block → `blocked`;
 9. otherwise → `pass`.
 
-Only `pass` exits successfully. The Action matches the expected subject and
-version. Other consumers remain responsible for matching expected authority and
-scope and for enforcing every listed condition.
+Only `pass` exits successfully. The Action matches the expected subject,
+authority, environment, and change. Every consumer remains responsible for
+enforcing each listed condition.

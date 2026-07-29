@@ -75,9 +75,9 @@
           "additionalProperties": false,
           "required": ["issued_at", "expires_at"],
           "properties": {
-            "issued_at": { "type": "string", "format": "date-time" },
-            "expires_at": { "type": "string", "format": "date-time" },
-            "revoked_at": { "type": "string", "format": "date-time" },
+            "issued_at": { "$ref": "#/$defs/timestamp" },
+            "expires_at": { "$ref": "#/$defs/timestamp" },
+            "revoked_at": { "$ref": "#/$defs/timestamp" },
             "supersedes": { "type": "string", "pattern": "^de_[a-z0-9_]{8,80}$" },
             "superseded_by": { "type": "string", "pattern": "^de_[a-z0-9_]{8,80}$" }
           }
@@ -112,6 +112,11 @@
     "digest": {
       "type": "string",
       "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,3})?Z$"
     }
   }
 }

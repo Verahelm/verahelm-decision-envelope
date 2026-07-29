@@ -62,6 +62,7 @@ template/verahelm-change-gate.yml
 tests/cli.mjs
 tests/conformance.mjs
 tests/release-gate.mjs
+verifier/json.mjs
 verifier/verify.mjs
 ```
 

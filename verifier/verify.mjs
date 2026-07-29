@@ -2,6 +2,7 @@
 import { createPublicKey, verify as verifySignature } from "node:crypto";
 import { open, stat } from "node:fs/promises";
 import { pathToFileURL } from "node:url";
+import { decodeUtf8, parseJsonBytes, parseJsonStrict } from "./json.mjs";
 
 const objectKeys = {
   root: ["payload", "signature", "status_url"],
@@ -23,12 +24,22 @@ function exactKeys(value, allowed, required = allowed) {
 }
 
 function text(value, max) {
-  return typeof value === "string" && value.length > 0 && value.length <= max;
+  if (typeof value !== "string" || value.length === 0 || value.length > max) return false;
+  for (let index = 0; index < value.length; index++) {
+    const unit = value.charCodeAt(index);
+    if (unit >= 0xd800 && unit <= 0xdbff) {
+      const next = value.charCodeAt(++index);
+      if (!(next >= 0xdc00 && next <= 0xdfff)) return false;
+    } else if (unit >= 0xdc00 && unit <= 0xdfff) {
+      return false;
+    }
+  }
+  return true;
 }
 
 function timestamp(value) {
   if (typeof value !== "string") return false;
-  const match = value.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.\d{1,9})?Z$/);
+  const match = value.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.\d{1,3})?Z$/);
   if (!match) return false;
   const instant = new Date(value);
   return Number.isFinite(instant.getTime()) &&
@@ -48,18 +59,25 @@ export function canonical(value) {
   return JSON.stringify(value);
 }
 
-function publicKey(value) {
-  try {
-    const parsed = JSON.parse(value);
-    if (parsed?.kty !== "OKP" || parsed?.crv !== "Ed25519" || typeof parsed.x !== "string") {
-      throw new Error("invalid_jwk");
-    }
-    return createPublicKey({ key: parsed, format: "jwk" });
-  } catch (error) {
-    if (error?.message !== "Unexpected token" && error?.message !== "invalid_jwk"
-        && !(error instanceof SyntaxError)) throw error;
-    return createPublicKey(value);
+export function parsePublicKey(value) {
+  if (typeof value !== "string" ||
+      /-----BEGIN [^-]*PRIVATE KEY-----/u.test(value)) {
+    throw new Error("public_key_required");
   }
+  let key;
+  if (value.trimStart().startsWith("{")) {
+    const parsed = parseJsonStrict(value);
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed) ||
+        parsed.kty !== "OKP" || parsed.crv !== "Ed25519" ||
+        typeof parsed.x !== "string" || Object.hasOwn(parsed, "d")) {
+      throw new Error("public_jwk_required");
+    }
+    key = createPublicKey({ key: parsed, format: "jwk" });
+  } else {
+    key = createPublicKey(value);
+  }
+  if (key.asymmetricKeyType !== "ed25519") throw new Error("ed25519_required");
+  return key;
 }
 
 export function validateEnvelope(document) {
@@ -142,7 +160,6 @@ function verifyStatus(document, key, envelope, at) {
       payload.expires_at !== envelope.payload.lifecycle.expires_at ||
       Date.parse(payload.expires_at) <= Date.parse(payload.issued_at) ||
       Date.parse(payload.observed_at) < Date.parse(payload.issued_at) ||
-      Date.parse(payload.observed_at) > Date.parse(payload.expires_at) ||
       Date.parse(payload.observed_at) > at ||
       (payload.revoked_at !== undefined && !timestamp(payload.revoked_at)) ||
       (payload.revoked_at !== undefined &&
@@ -171,8 +188,7 @@ export async function verifyEnvelope(document, publicKeyText, now = new Date(), 
 
   let signatureValid = false;
   try {
-    const key = publicKey(publicKeyText);
-    if (key.asymmetricKeyType !== "ed25519") throw new Error("wrong_key_type");
+    const key = parsePublicKey(publicKeyText);
     signatureValid = verifySignature(
       null,
       Buffer.from(canonical(document.payload)),
@@ -187,15 +203,36 @@ export async function verifyEnvelope(document, publicKeyText, now = new Date(), 
       (expected.subjectVersion && document.payload.subject.version !== expected.subjectVersion)) {
     return { status: "invalid", valid: false, errors: ["subject_mismatch"] };
   }
+  if (expected.authorityId && document.payload.authority.id !== expected.authorityId) {
+    return { status: "invalid", valid: false, errors: ["authority_mismatch"] };
+  }
+  if ((expected.scopeEnvironment &&
+        document.payload.scope.environment !== expected.scopeEnvironment) ||
+      (expected.scopeChange && document.payload.scope.change !== expected.scopeChange)) {
+    return { status: "invalid", valid: false, errors: ["scope_mismatch"] };
+  }
 
   const at = now.getTime();
   const lifecycle = document.payload.lifecycle;
+  const statusMaxAgeSeconds = expected.statusMaxAgeSeconds;
   if (!Number.isFinite(at)) return { status: "invalid", valid: false, errors: ["verification_time"] };
+  if (statusMaxAgeSeconds !== undefined &&
+      (!Number.isSafeInteger(statusMaxAgeSeconds) || statusMaxAgeSeconds < 0 ||
+        statusMaxAgeSeconds > Math.floor(Number.MAX_SAFE_INTEGER / 1000))) {
+    return { status: "invalid", valid: false, errors: ["status_freshness_policy"] };
+  }
+  if (statusMaxAgeSeconds !== undefined && !statusDocument) {
+    return { status: "invalid", valid: false, errors: ["status_required"] };
+  }
   if (statusDocument) {
     let key;
-    try { key = publicKey(publicKeyText); } catch { return { status: "invalid", valid: false, errors: ["public_key"] }; }
+    try { key = parsePublicKey(publicKeyText); } catch { return { status: "invalid", valid: false, errors: ["public_key"] }; }
     const status = verifyStatus(statusDocument, key, document, at);
     if (!status) return { status: "tampered", valid: false, envelope_id: document.payload.envelope_id };
+    if (statusMaxAgeSeconds !== undefined &&
+        at - Date.parse(status.observed_at) > statusMaxAgeSeconds * 1000) {
+      return { status: "invalid", valid: false, errors: ["status_stale"] };
+    }
     if (status.state !== "active") {
       return {
         status: status.state,
@@ -229,10 +266,18 @@ function parseArgs(args) {
     else if (args[index] === "--status") options.status = args[index + 1];
     else if (args[index] === "--subject-id") options.subjectId = args[index + 1];
     else if (args[index] === "--subject-version") options.subjectVersion = args[index + 1];
+    else if (args[index] === "--authority-id") options.authorityId = args[index + 1];
+    else if (args[index] === "--scope-environment") options.scopeEnvironment = args[index + 1];
+    else if (args[index] === "--scope-change") options.scopeChange = args[index + 1];
+    else if (args[index] === "--status-max-age-seconds") {
+      if (!/^(?:0|[1-9]\d{0,14})$/u.test(args[index + 1] ?? "")) throw new Error("status_freshness_policy");
+      options.statusMaxAgeSeconds = Number(args[index + 1]);
+    }
     else throw new Error("unknown_argument");
   }
   if (!options.envelope || !options.key) throw new Error("usage");
   if (Boolean(options.subjectId) !== Boolean(options.subjectVersion)) throw new Error("subject_binding_required");
+  if (Boolean(options.scopeEnvironment) !== Boolean(options.scopeChange)) throw new Error("scope_binding_required");
   return options;
 }
 
@@ -241,7 +286,7 @@ async function readBounded(path, maximum) {
   if (!metadata.isFile() || metadata.size < 1 || metadata.size > maximum) throw new Error("invalid_file");
   const file = await open(path, "r");
   try {
-    return await file.readFile("utf8");
+    return await file.readFile();
   } finally {
     await file.close();
   }
@@ -250,17 +295,24 @@ async function readBounded(path, maximum) {
 export async function runCli(args) {
   try {
     const options = parseArgs(args);
-    const [documentText, publicKeyText, statusText] = await Promise.all([
+    const [documentBytes, publicKeyBytes, statusBytes] = await Promise.all([
       readBounded(options.envelope, 131072),
       readBounded(options.key, 16384),
       options.status ? readBounded(options.status, 131072) : null
     ]);
     const result = await verifyEnvelope(
-      JSON.parse(documentText),
-      publicKeyText,
+      parseJsonBytes(documentBytes),
+      decodeUtf8(publicKeyBytes),
       options.at ? new Date(options.at) : new Date(),
-      statusText ? JSON.parse(statusText) : null,
-      { subjectId: options.subjectId, subjectVersion: options.subjectVersion }
+      statusBytes ? parseJsonBytes(statusBytes) : null,
+      {
+        subjectId: options.subjectId,
+        subjectVersion: options.subjectVersion,
+        authorityId: options.authorityId,
+        scopeEnvironment: options.scopeEnvironment,
+        scopeChange: options.scopeChange,
+        statusMaxAgeSeconds: options.statusMaxAgeSeconds
+      }
     );
     process.stdout.write(`${JSON.stringify(result)}\n`);
     return {

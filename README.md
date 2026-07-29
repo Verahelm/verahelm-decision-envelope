@@ -46,16 +46,28 @@ steps:
       public-key-sha256: ${{ vars.VERAHELM_PUBLIC_KEY_SHA256 }}
       subject-id: ${{ github.repository }}
       subject-version: ${{ steps.subject.outputs.version }}
+      authority-id: ${{ vars.VERAHELM_AUTHORITY_ID }}
+      scope-environment: ${{ vars.VERAHELM_SCOPE_ENVIRONMENT }}
+      scope-change: pull-request-${{ github.event.pull_request.number }}
 ```
 
 The Action verifies a supplied envelope; it does not call the hosted API or
 issue a decision. Configure `VERAHELM_PUBLIC_KEY_SHA256` as a repository
 Actions variable containing `sha256:` followed by the SHA-256 fingerprint of
 the trusted key file. Pull-request content must not control this value.
-Generate the value with `node cli/verahelm.mjs fingerprint PUBLIC_KEY`.
+Generate the value with `node cli/verahelm.mjs fingerprint PUBLIC_KEY`. Also
+configure the expected authority and environment as protected repository
+variables. The signed `scope.change` must match
+`pull-request-<pull-request-number>`.
 Use the complete base-controlled workflow in
 [`template/verahelm-change-gate.yml`](template/verahelm-change-gate.yml); it
 does not execute pull-request code.
+
+For a gate that relies on current lifecycle status, supply a signed status file
+and `status-max-age-seconds`. Without a sufficiently fresh status, offline
+verification cannot discover a later server-side revocation or supersession.
+The Action matches expected subject, version, authority, environment, and
+change. The consuming workflow must still enforce every signed condition.
 
 ## Local commands
 
@@ -108,8 +120,9 @@ See [PRIVACY_BOUNDARY.md](PRIVACY_BOUNDARY.md).
 
 - Ed25519 verification runs offline.
 - The Action requires only `contents: read`.
-- A trusted key fingerprint outside pull-request content prevents replacement
-  of both the key and envelope.
+- A trusted key fingerprint outside pull-request content prevents trust-key
+  replacement. Signature verification and expected subject, authority, and
+  scope matching reject payload modification and cross-context substitution.
 - Unknown fields, unsupported versions, invalid signatures, and invalid
   lifecycle states fail closed.
 - Fixtures are fictional and test only the published verification contract.

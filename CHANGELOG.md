@@ -4,6 +4,8 @@
 
 - Added a static repository preview aligned with the website visual system.
 - Clarified the current release-signing status and Discussions channel.
+- Rejected private-key input, duplicate JSON keys, invalid UTF-8, and stale signed status when a freshness policy is configured.
+- Aligned timestamp schemas with verifier precision and corrected post-expiry status handling.
 
 ## 0.4.0 — 2026-07-28
 

@@ -2,7 +2,8 @@
 import { createHash } from "node:crypto";
 import { open, readFile, stat } from "node:fs/promises";
 import { pathToFileURL } from "node:url";
-import { runCli as runVerifier, validateEnvelope, verifyEnvelope } from "../verifier/verify.mjs";
+import { parsePublicKey, runCli as runVerifier, validateEnvelope, verifyEnvelope } from "../verifier/verify.mjs";
+import { decodeUtf8, parseJsonBytes } from "../verifier/json.mjs";
 
 const root = new URL("../", import.meta.url);
 const commands = new Set(["demo", "validate", "verify", "explain", "fingerprint"]);
@@ -21,7 +22,7 @@ async function boundedFile(path, maximum) {
 }
 
 async function jsonFile(path, maximum = 65536) {
-  return JSON.parse((await boundedFile(path, maximum)).toString("utf8"));
+  return parseJsonBytes(await boundedFile(path, maximum));
 }
 
 async function demo() {
@@ -29,7 +30,7 @@ async function demo() {
   const at = new Date("2026-07-27T12:00:00Z");
   const results = [];
   for (const name of ["pass", "blocked", "expired", "tampered"]) {
-    const document = JSON.parse(await readFile(new URL(`fixtures/${name}.json`, root), "utf8"));
+    const document = parseJsonBytes(await readFile(new URL(`fixtures/${name}.json`, root)));
     results.push({ fixture: name, status: (await verifyEnvelope(document, key, at)).status });
   }
   return { status: "demo_complete", results };
@@ -43,6 +44,8 @@ async function validate(args) {
 
 async function explain(args) {
   const value = await jsonFile(args[0], 131072);
+  const errors = validateEnvelope(value);
+  if (errors.length) return { status: "invalid", valid: false, errors };
   const envelope = value?.payload && value?.signature ? value : null;
   const decision = envelope?.payload?.decision;
   if (decision) {
@@ -60,7 +63,9 @@ async function explain(args) {
 
 async function fingerprint(args) {
   if (args.length !== 1) throw new Error("usage");
-  const digest = createHash("sha256").update(await boundedFile(args[0], 16384)).digest("hex");
+  const bytes = await boundedFile(args[0], 16384);
+  parsePublicKey(decodeUtf8(bytes));
+  const digest = createHash("sha256").update(bytes).digest("hex");
   return { status: "fingerprint", algorithm: "sha256", digest: `sha256:${digest}` };
 }
 
