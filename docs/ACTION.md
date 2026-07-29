@@ -9,7 +9,7 @@ pull-request code, or send envelope data over the network.
 The semantic tag is convenient and immutable for this release:
 
 ```yaml
-- uses: Verahelm/verahelm-decision-envelope@v0.10.0
+- uses: Verahelm/verahelm-decision-envelope@v0.10.1
   with:
     envelope: decision-envelope.json
     public-key: decision-envelope-public-key.pem
@@ -58,7 +58,7 @@ dependency update policies.
 ```yaml
 - name: Verify
   id: verahelm
-  uses: Verahelm/verahelm-decision-envelope@v0.10.0
+  uses: Verahelm/verahelm-decision-envelope@v0.10.1
   with:
     # Required inputs omitted here; use the complete example above.
 

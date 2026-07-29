@@ -1,8 +1,8 @@
-# Verahelm Decision Envelope v0.10.0
+# Verahelm Decision Envelope v0.10.1
 
-This release adds customer-controlled offline trust rotation and independently
-visible repository security controls without expanding the private-engine
-disclosure boundary.
+This maintenance release makes the verified Action available for GitHub
+Marketplace publication and incorporates public documentation improvements
+made after `v0.10.0`. Verifier and Action behavior are unchanged.
 
 Included:
 
@@ -37,10 +37,10 @@ underlying evidence is true or sufficient.
 ## Verify
 
 ```bash
-gh release download v0.10.0 --repo Verahelm/verahelm-decision-envelope
+gh release download v0.10.1 --repo Verahelm/verahelm-decision-envelope
 sha256sum --check SHA256SUMS
-gh attestation verify verahelm-decision-envelope-0.10.0.tar.gz --repo Verahelm/verahelm-decision-envelope
-gh attestation verify verahelm-decision-envelope-0.10.0.tgz --repo Verahelm/verahelm-decision-envelope
+gh attestation verify verahelm-decision-envelope-0.10.1.tar.gz --repo Verahelm/verahelm-decision-envelope
+gh attestation verify verahelm-decision-envelope-0.10.1.tgz --repo Verahelm/verahelm-decision-envelope
 ```
 
 `SOURCE_COMMIT` identifies the exact source revision. The immutable GitHub

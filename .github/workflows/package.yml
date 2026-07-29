@@ -32,6 +32,6 @@ jobs:
         shell: bash
         run: |
           mkdir package-test
-          tar -xzf ./verahelm-decision-envelope-0.10.0.tgz -C package-test
+          tar -xzf ./verahelm-decision-envelope-0.10.1.tgz -C package-test
       - name: Run packaged fictional demo
         run: node ./package-test/package/cli/verahelm.mjs demo

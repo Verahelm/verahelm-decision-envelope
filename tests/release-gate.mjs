@@ -132,7 +132,7 @@ const actionContract = await readPublic("docs/ACTION.md");
 const releaseGuide = await readPublic("docs/RELEASES.md");
 const templateWorkflow = await readPublic("template/verahelm-change-gate.yml");
 const repositoryPreview = await readPublic("docs/assets/repository-preview.svg");
-assert.equal(packageDocument.version, "0.10.0");
+assert.equal(packageDocument.version, "0.10.1");
 assert.equal(packageDocument.name, "verahelm-decision-envelope");
 assert.equal(packageDocument.description,
   "Offline verifier and GitHub Action for Verahelm Decision Envelopes.");
@@ -172,7 +172,8 @@ assert.match(releaseWorkflow, /permissions: read-all/);
 assert.match(releaseWorkflow,
   /publish:\s*\n\s*runs-on: ubuntu-latest\s*\n\s*timeout-minutes: 10\s*\n\s*permissions:\s*\n\s*contents: write\s*\n\s*id-token: write\s*\n\s*attestations: write/);
 assert.match(releaseWorkflow, /gh release create[\s\S]*--draft/);
-assert.match(releaseWorkflow, /gh release edit[\s\S]*--draft=false/);
+assert.match(releaseWorkflow, /gh release view[\s\S]*--json isDraft/);
+assert.doesNotMatch(releaseWorkflow, /gh release edit[\s\S]*--draft=false/);
 assert.doesNotMatch(releaseWorkflow, /uses:\s+(?!actions\/(?:checkout|attest-build-provenance)@)/);
 assert.match(packageWorkflow, /actions\/checkout@[0-9a-f]{40}/);
 assert.match(packageWorkflow, /actions\/setup-node@[0-9a-f]{40}/);
@@ -181,7 +182,7 @@ assert.match(packageWorkflow, /actions\/setup-node@820762786026740c76f36085b0efc
 assert.match(packageWorkflow, /os: \[ubuntu-latest, macos-latest, windows-latest\]/);
 assert.match(packageWorkflow, /node: \[20, 22, 24\]/);
 assert.match(packageWorkflow,
-  /tar -xzf \.\/verahelm-decision-envelope-0\.10\.0\.tgz -C package-test/);
+  /tar -xzf \.\/verahelm-decision-envelope-0\.10\.1\.tgz -C package-test/);
 assert.match(packageWorkflow,
   /node \.\/package-test\/package\/cli\/verahelm\.mjs demo/);
 assert.doesNotMatch(packageWorkflow, /\bnpm (?:ci|install|update)\b|\bnpx\b/);

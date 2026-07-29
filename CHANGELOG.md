@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+## 0.10.1 — 2026-07-29
+
+- Prepared the verified Action for GitHub Marketplace publication without
+  changing verifier or Action behavior.
+- Added the rendered documentation link and aligned public activation, testing
+  allowance, pricing, and integration guidance.
+
 ## 0.10.0 — 2026-07-28
 
 - Added an offline, digest-pinned multi-key trust bundle with issuer, key ID,

@@ -10,8 +10,12 @@ SHA-256 inventory, SPDX SBOM, and exact source-commit receipt.
 3. Review versions, release notes, SPDX SBOM, and workflow dependency pins.
 4. Create an annotated semantic-version tag at the reviewed full commit SHA.
 5. Push only that tag. The release workflow builds twice and requires byte
-   equality, creates a draft, uploads assets, attests them, then publishes.
-6. Verify the immutable release and build attestations using the commands in
+   equality, creates a draft, uploads assets, attests them, and leaves the draft
+   for owner review.
+6. Review the draft, select **Publish this Action to the GitHub Marketplace**,
+   and publish it. Repository immutable-release protection then locks the tag
+   and assets.
+7. Verify the immutable release and build attestations using the commands in
    [`release/REPRODUCIBLE_BUILD.md`](../release/REPRODUCIBLE_BUILD.md).
 
 The release identity is the GitHub immutable-release attestation plus the

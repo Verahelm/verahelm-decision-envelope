@@ -1,6 +1,6 @@
 {
   "name": "verahelm-decision-envelope",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "private": true,
   "description": "Offline verifier and GitHub Action for Verahelm Decision Envelopes.",
   "license": "Apache-2.0",

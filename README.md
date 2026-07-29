@@ -62,7 +62,7 @@ upload raw evidence or claim native verification by Verahelm.
 ## Run without cloning
 
 ```bash
-npm exec --yes --ignore-scripts --package=https://github.com/Verahelm/verahelm-decision-envelope/releases/download/v0.10.0/verahelm-decision-envelope-0.10.0.tgz -- verahelm-envelope demo
+npm exec --yes --ignore-scripts --package=https://github.com/Verahelm/verahelm-decision-envelope/releases/download/v0.10.1/verahelm-decision-envelope-0.10.1.tgz -- verahelm-envelope demo
 ```
 
 The version-pinned package is dependency-free and attached to an immutable,

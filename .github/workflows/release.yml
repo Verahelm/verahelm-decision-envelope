@@ -66,8 +66,14 @@ jobs:
         uses: actions/attest-build-provenance@0f67c3f4856b2e3261c31976d6725780e5e4c373
         with:
           subject-path: release-output/*
-      - name: Publish immutable release
+      - name: Verify owner-reviewable draft
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash
-        run: gh release edit "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --draft=false
+        run: |
+          set -euo pipefail
+          test "$(gh release view "$GITHUB_REF_NAME" \
+            --repo "$GITHUB_REPOSITORY" \
+            --json isDraft \
+            --jq '.isDraft')" = "true"
+          printf 'release_draft=ready owner_publication_required=true\n'

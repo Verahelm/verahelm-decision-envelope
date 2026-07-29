@@ -2,17 +2,17 @@
   "spdxVersion": "SPDX-2.3",
   "dataLicense": "CC0-1.0",
   "SPDXID": "SPDXRef-DOCUMENT",
-  "name": "verahelm-decision-envelope-0.10.0",
-  "documentNamespace": "https://www.verahelm.com/sbom/decision-envelope/0.10.0",
+  "name": "verahelm-decision-envelope-0.10.1",
+  "documentNamespace": "https://www.verahelm.com/sbom/decision-envelope/0.10.1",
   "creationInfo": {
-    "created": "2026-07-28T00:00:00Z",
+    "created": "2026-07-29T00:00:00Z",
     "creators": ["Organization: Verahelm Holdings LLC"]
   },
   "packages": [
     {
       "name": "verahelm-decision-envelope",
       "SPDXID": "SPDXRef-Package",
-      "versionInfo": "0.10.0",
+      "versionInfo": "0.10.1",
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "Apache-2.0",

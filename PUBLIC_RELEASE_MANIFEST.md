@@ -1,6 +1,6 @@
 # Public release manifest
 
-Candidate: `verahelm-decision-envelope-public` 0.10.0
+Candidate: `verahelm-decision-envelope-public` 0.10.1
 Boundary: explicit allowlist; default deny; no repository history.
 
 ## Allowlist
