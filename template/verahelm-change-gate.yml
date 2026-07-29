@@ -23,7 +23,7 @@ jobs:
           SUBJECT_REVISION: ${{ github.event.pull_request.head.sha }}
         run: printf 'version=sha256:%s\n' "$(printf '%s' \"$SUBJECT_ID@$SUBJECT_REVISION\" | sha256sum | cut -d' ' -f1)" >> "$GITHUB_OUTPUT"
       - name: Verify Decision Envelope
-        uses: Verahelm/verahelm-decision-envelope@33ca2a95808491a1f0d13a5aa2433e911d4582c3
+        uses: Verahelm/verahelm-decision-envelope@687404bc44b72cac09c0ad1e5bc196b7ae653baa
         with:
           envelope: decision-envelope.json
           public-key: decision-envelope-public-key.json
