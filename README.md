@@ -34,6 +34,8 @@ additional endpoint or disclosure of repository content is required.
 
 [Request a non-production testing key](https://www.verahelm.com/access#testing-key)
 after the fictional local demo succeeds.
+Eligible testing keys provide 21 lifetime units—up to seven base three-unit
+pull-request or agent-change gates. No card is required.
 
 ![Verahelm Decision Envelope: signed, subject-bound, expiring change authorization](docs/assets/repository-preview.svg)
 
