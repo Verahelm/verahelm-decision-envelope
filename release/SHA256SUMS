@@ -2,7 +2,7 @@
 cc677af48087a8ab65ad3ce4725ab6bd63b8e12f6e9fafa37cb4405f9eb9b22d  ./.github/ISSUE_TEMPLATE/bug.yml
 43944fcd8ba4547bf0a1352bda7d0293ee7e9c746c234211ffae8215c6964a98  ./.github/ISSUE_TEMPLATE/config.yml
 21b61e8d4578d380163447c9c6eff4dac48a7c92a68c0d526643c7badfecc163  ./.github/PULL_REQUEST_TEMPLATE.md
-f675868450aa8c8ac417ed26dd4b24f72e8a8d54cf0c4b21bb1a71417a1a0eee  ./.github/workflows/package.yml
+d9b19d6d279f29615234d6852a6d1e4128f945bcd86324a11806c273b881e191  ./.github/workflows/package.yml
 546bc7b87e7d67ef2b7be010d98d24ce1cdb39df72ad06d705e4d48938d9029a  ./.github/workflows/release.yml
 f628127e27039a70f0987fe221d3c3dbf778d1977922ccc35a9cbcded5304458  ./.github/workflows/verify.yml
 32ba4b0ba2a6d63fe290cd4d8a91479db8d53a24da98c5c98f3c02622efb344a  ./CHANGELOG.md
