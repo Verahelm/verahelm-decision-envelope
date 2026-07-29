@@ -12,11 +12,13 @@ separately.
 | Runtime dependencies | None for the Node.js verifier package. | `package.json`; package contract test |
 | GitHub permissions | `contents: read` for verification. | [Workflow template](../template/verahelm-change-gate.yml) |
 | Trust anchor | Caller-controlled public key pinned by an independently configured SHA-256 fingerprint. | [Threat model](../THREAT_MODEL.md) |
+| Key rotation | Optional offline multi-key bundle pinned by its complete-file SHA-256 digest, with issuer, key-ID, and validity-window constraints. | [Specification](../SPECIFICATION.md) |
 | Raw evidence handling | The envelope references digests. Public adapters hash bounded local files without parsing or uploading them. | [Privacy boundary](../PRIVACY_BOUNDARY.md) |
 | Unknown or unsupported input | Rejected fail closed. | Conformance suite and verifier exit codes |
 | Lifecycle | Expiry, signed revocation, supersession, and optional maximum status age. | [Specification](../SPECIFICATION.md) |
 | Release identity | Immutable GitHub release, source commit receipt, SHA-256 inventory, SPDX SBOM, and GitHub artifact attestations. | [Release procedure](RELEASES.md) |
 | Static analysis | CodeQL runs on pull requests, main, and a weekly schedule. | `.github/workflows/codeql.yml` |
+| Repository controls | Pinned dependency review runs on pull requests; OpenSSF Scorecard results remain inside GitHub code scanning. | `.github/workflows/dependency-review.yml`; `.github/workflows/scorecard.yml` |
 | Telemetry | None in the verifier, CLI, Action, or digest adapter. | [Privacy boundary](../PRIVACY_BOUNDARY.md) |
 
 ## Customer-controlled decisions

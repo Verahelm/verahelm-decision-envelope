@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-import { createPublicKey, verify as verifySignature } from "node:crypto";
+import { createHash, createPublicKey, verify as verifySignature } from "node:crypto";
 import { open, stat } from "node:fs/promises";
 import { pathToFileURL } from "node:url";
 import { decodeUtf8, parseJsonBytes, parseJsonStrict } from "./json.mjs";
@@ -262,6 +262,8 @@ function parseArgs(args) {
   const options = { envelope: args[0] };
   for (let index = 1; index < args.length; index += 2) {
     if (args[index] === "--key") options.key = args[index + 1];
+    else if (args[index] === "--trust-bundle") options.trustBundle = args[index + 1];
+    else if (args[index] === "--trust-bundle-sha256") options.trustBundleSha256 = args[index + 1];
     else if (args[index] === "--at") options.at = args[index + 1];
     else if (args[index] === "--status") options.status = args[index + 1];
     else if (args[index] === "--subject-id") options.subjectId = args[index + 1];
@@ -275,7 +277,12 @@ function parseArgs(args) {
     }
     else throw new Error("unknown_argument");
   }
-  if (!options.envelope || !options.key) throw new Error("usage");
+  if (!options.envelope || Boolean(options.key) === Boolean(options.trustBundle)) throw new Error("usage");
+  if (Boolean(options.trustBundle) !== Boolean(options.trustBundleSha256) ||
+      (options.trustBundleSha256 &&
+        !/^sha256:[a-f0-9]{64}$/u.test(options.trustBundleSha256))) {
+    throw new Error("trust_bundle_fingerprint_required");
+  }
   if (Boolean(options.subjectId) !== Boolean(options.subjectVersion)) throw new Error("subject_binding_required");
   if (Boolean(options.scopeEnvironment) !== Boolean(options.scopeChange)) throw new Error("scope_binding_required");
   return options;
@@ -295,14 +302,33 @@ async function readBounded(path, maximum) {
 export async function runCli(args) {
   try {
     const options = parseArgs(args);
-    const [documentBytes, publicKeyBytes, statusBytes] = await Promise.all([
+    const [documentBytes, trustBytes, statusBytes] = await Promise.all([
       readBounded(options.envelope, 131072),
-      readBounded(options.key, 16384),
+      readBounded(options.key ?? options.trustBundle, options.key ? 16384 : 524288),
       options.status ? readBounded(options.status, 131072) : null
     ]);
+    const document = parseJsonBytes(documentBytes);
+    let publicKeyText;
+    if (options.key) {
+      publicKeyText = decodeUtf8(trustBytes);
+    } else {
+      const actual = `sha256:${createHash("sha256").update(trustBytes).digest("hex")}`;
+      if (actual !== options.trustBundleSha256) throw new Error("trust_bundle_fingerprint_mismatch");
+      const { resolveTrustKey } = await import("./trust.mjs");
+      const resolved = resolveTrustKey(
+        parseJsonBytes(trustBytes),
+        document,
+        options.at ? new Date(options.at) : new Date()
+      );
+      if (resolved.errors) {
+        process.stdout.write(`${JSON.stringify({ status: "invalid", valid: false, errors: resolved.errors })}\n`);
+        return 64;
+      }
+      publicKeyText = resolved.publicKey;
+    }
     const result = await verifyEnvelope(
-      parseJsonBytes(documentBytes),
-      decodeUtf8(publicKeyBytes),
+      document,
+      publicKeyText,
       options.at ? new Date(options.at) : new Date(),
       statusBytes ? parseJsonBytes(statusBytes) : null,
       {

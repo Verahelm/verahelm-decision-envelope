@@ -1,6 +1,6 @@
 # Public release manifest
 
-Candidate: `verahelm-decision-envelope-public` 0.9.0
+Candidate: `verahelm-decision-envelope-public` 0.10.0
 Boundary: explicit allowlist; default deny; no repository history.
 
 ## Allowlist
@@ -15,8 +15,10 @@ Only these paths may enter the public repository:
 .github/PULL_REQUEST_TEMPLATE.md
 .github/dependabot.yml
 .github/workflows/codeql.yml
+.github/workflows/dependency-review.yml
 .github/workflows/package.yml
 .github/workflows/release.yml
+.github/workflows/scorecard.yml
 .github/workflows/verify.yml
 CHANGELOG.md
 CITATION.cff
@@ -25,6 +27,7 @@ CONTRIBUTING.md
 GOVERNANCE.md
 LICENSE
 LICENSES/Apache-2.0.txt
+NOTICE
 PRIVACY_BOUNDARY.md
 PUBLIC_DISCLOSURE_CHECKLIST.md
 PUBLIC_RELEASE_MANIFEST.md
@@ -72,6 +75,7 @@ fixtures/pass.json
 fixtures/revoked-status.json
 fixtures/superseded-status.json
 fixtures/tampered.json
+fixtures/trust-bundle.json
 package.json
 release/SBOM.spdx.json
 release/RELEASE_NOTES.md
@@ -80,6 +84,7 @@ release/SHA256SUMS
 schemas/decision-envelope.schema.json
 schemas/decision-status.schema.json
 schemas/measurement-contribution.schema.json
+schemas/trust-bundle.schema.json
 template/README.md
 template/verahelm-change-gate.yml
 tests/cli.mjs
@@ -90,6 +95,7 @@ tests/package.mjs
 tests/properties.mjs
 tests/release-gate.mjs
 verifier/json.mjs
+verifier/trust.mjs
 verifier/verify.mjs
 ```
 
@@ -114,7 +120,7 @@ Excluded categories include private methods, scoring, rules, thresholds, weights
 - No suspicious high-entropy value assigned to a credential-like field.
 - In-memory negative controls prove representative secret and forbidden-file checks fail closed.
 - The exact file set equals this allowlist; additions fail closed.
-- All JSON parses; all seven fixtures are fictional and pass the applicable contract or lifecycle test.
+- All JSON parses; all fixtures are fictional and pass the applicable contract or lifecycle test.
 - Release gate: `node tests/release-gate.mjs`.
 - Conformance gate: `node tests/conformance.mjs`.
 

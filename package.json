@@ -1,9 +1,9 @@
 {
   "name": "verahelm-decision-envelope",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "private": true,
   "description": "Offline verifier and GitHub Action for Verahelm Decision Envelopes.",
-  "license": "SEE LICENSE IN LICENSE",
+  "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Verahelm/verahelm-decision-envelope.git"
@@ -19,6 +19,7 @@
     "docs/CLI.md",
     "docs/PACKAGE.md",
     "LICENSE",
+    "NOTICE",
     "LICENSES/Apache-2.0.txt",
     "PRIVACY_BOUNDARY.md"
   ],

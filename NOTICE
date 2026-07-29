@@ -1,0 +1,12 @@
+Verahelm Decision Envelope
+Copyright 2026 Verahelm Holdings LLC.
+
+This distribution contains the public verifier and integration kit licensed
+under Apache License 2.0. Verahelm's private decision engine, hosted-service
+implementation, non-public methods, confidential information, customer
+material, and production systems are not part of this distribution and are not
+licensed by it.
+
+The Apache License does not grant permission to use Verahelm trademarks, names,
+or branding except as required for reasonable and customary description of the
+origin of this distribution.

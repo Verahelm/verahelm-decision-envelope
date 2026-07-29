@@ -29,6 +29,6 @@ jobs:
       - name: Build package
         run: npm pack
       - name: Install without lifecycle scripts
-        run: npm install --ignore-scripts --no-audit --no-fund --no-save ./verahelm-decision-envelope-0.9.0.tgz
+        run: npm install --ignore-scripts --no-audit --no-fund --no-save ./verahelm-decision-envelope-0.10.0.tgz
       - name: Run packaged fictional demo
         run: npx --no-install verahelm-envelope demo

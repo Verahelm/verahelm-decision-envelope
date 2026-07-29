@@ -25,4 +25,9 @@ endpoint compromise, host compromise, status freshness when no maximum age is
 configured, trustworthiness of configured authority or scope values, and
 enforcement of signed conditions by downstream systems.
 
-The verifier parses one bounded JSON document and one Ed25519 public key. It does not dereference evidence or execute supplied content.
+The verifier parses one bounded JSON document and either one Ed25519 public key
+or one digest-pinned offline trust bundle. Trust material controlled by the
+same untrusted change is not trustworthy unless its complete-file digest is
+independently configured. Bundle validity windows do not replace protected
+configuration or compromise response. The verifier does not dereference
+evidence or execute supplied content.

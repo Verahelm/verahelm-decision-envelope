@@ -22,6 +22,9 @@ time. It does not prove the truth or quality of underlying evidence, authorize
 production use, execute Verahelm's private engine, or discover a later
 revocation without a sufficiently fresh signed status.
 
+Trust can be configured as one pinned Ed25519 public key or a pinned offline
+multi-key bundle with issuer, key-identifier, and validity-window constraints.
+
 ## Evaluate a pull-request gate
 
 The [bounded pilot](docs/PILOT.md) starts in one private, non-production
@@ -52,7 +55,7 @@ the repository is cloned.
 ## Run without cloning
 
 ```bash
-npm exec --yes --ignore-scripts --package=https://github.com/Verahelm/verahelm-decision-envelope/releases/download/v0.9.0/verahelm-decision-envelope-0.9.0.tgz -- verahelm-envelope demo
+npm exec --yes --ignore-scripts --package=https://github.com/Verahelm/verahelm-decision-envelope/releases/download/v0.10.0/verahelm-decision-envelope-0.10.0.tgz -- verahelm-envelope demo
 ```
 
 The version-pinned package is dependency-free and attached to an immutable,
@@ -194,4 +197,5 @@ effort with no response-time SLA.
 - [Versioning policy](VERSIONING.md)
 - [GitHub and attestation integration](docs/INTEGRATIONS.md#github-change-enforcement)
 
-Reusable public code is licensed only as stated in [LICENSE](LICENSE).
+The public distribution is Apache-2.0 licensed. [NOTICE](NOTICE) identifies the
+private-engine, confidential-material, and trademark boundary.

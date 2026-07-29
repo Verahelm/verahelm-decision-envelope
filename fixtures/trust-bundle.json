@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0.0",
+  "bundle_id": "tb_synthetic_01",
+  "version": 1,
+  "valid_from": "2025-01-01T00:00:00Z",
+  "expires_at": "2099-12-31T23:59:59Z",
+  "keys": [
+    {
+      "issuer_id": "synthetic-verifier",
+      "key_id": "fixture-2026-01",
+      "public_key": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAfLxdE53UvCl+Ca0UJ42M0/q3SvTwp034o/cVGBTdBkI=\n-----END PUBLIC KEY-----\n",
+      "fingerprint": "sha256:09baa7869c2290474c708a3d4bd9abf10f844244efe4d56ebb969bb22a26fae8",
+      "valid_from": "2025-01-01T00:00:00Z",
+      "expires_at": "2099-12-31T23:59:59Z"
+    }
+  ]
+}

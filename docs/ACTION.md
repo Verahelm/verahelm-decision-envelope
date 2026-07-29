@@ -9,7 +9,7 @@ pull-request code, or send envelope data over the network.
 The semantic tag is convenient and immutable for this release:
 
 ```yaml
-- uses: Verahelm/verahelm-decision-envelope@v0.6.0
+- uses: Verahelm/verahelm-decision-envelope@v0.10.0
   with:
     envelope: decision-envelope.json
     public-key: decision-envelope-public-key.pem
@@ -36,8 +36,10 @@ dependency update policies.
 | Input | Required | Default | Meaning |
 |---|---:|---|---|
 | `envelope` | Yes | None | Repository-relative path to one Decision Envelope. |
-| `public-key` | Yes | None | Repository-relative path to one Ed25519 public key. |
-| `public-key-sha256` | Yes | None | Trusted `sha256:` fingerprint configured outside pull-request content. |
+| `public-key` | Alternative | None | Repository-relative path to one Ed25519 public key. |
+| `public-key-sha256` | Alternative | None | Trusted `sha256:` fingerprint configured outside pull-request content. |
+| `trust-bundle` | Alternative | None | Repository-relative path to one offline multi-key trust bundle. |
+| `trust-bundle-sha256` | Alternative | None | Trusted full-file bundle fingerprint configured outside pull-request content. |
 | `status` | No | None | Repository-relative path to one signed lifecycle-status document. |
 | `status-max-age-seconds` | No | None | Maximum accepted signed-status age; requires `status`. |
 | `subject-id` | Yes | None | Expected subject identifier from workflow context. |
@@ -56,7 +58,7 @@ dependency update policies.
 ```yaml
 - name: Verify
   id: verahelm
-  uses: Verahelm/verahelm-decision-envelope@v0.6.0
+  uses: Verahelm/verahelm-decision-envelope@v0.10.0
   with:
     # Required inputs omitted here; use the complete example above.
 
@@ -81,6 +83,9 @@ Use the base-controlled
 checks out no pull-request code and disables credential persistence. The
 trusted key fingerprint, authority, and environment must come from protected
 repository configuration, never from pull-request content.
+
+Use either the public-key pair or the trust-bundle pair, never both. A pinned
+bundle permits bounded issuer-key rotation without adding network access.
 
 The consuming workflow remains responsible for enforcing declared conditions
 and obtaining a sufficiently fresh signed status when later revocation or

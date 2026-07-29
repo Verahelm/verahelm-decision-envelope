@@ -49,6 +49,13 @@ The verification key is a trust anchor. Pull-request content may supply a key
 file only when its exact SHA-256 fingerprint is independently configured and
 checked outside pull-request content.
 
+An offline trust bundle may replace the single-key file. The bundle is
+independently pinned by its complete-file SHA-256 digest and binds each Ed25519
+public key to one issuer, key identifier, and validity interval. Unknown,
+duplicate, not-yet-valid, expired, malformed, or fingerprint-mismatched keys
+fail closed. Updating a trusted bundle digest remains a customer-controlled
+configuration change; the verifier does not retrieve trust material.
+
 An optional signed status document can be checked against a caller-supplied
 maximum age. Configuring a maximum age requires a status document; an older
 status fails with `status_stale`. Without that policy, status authenticity is

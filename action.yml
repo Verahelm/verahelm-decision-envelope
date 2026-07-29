@@ -7,10 +7,16 @@ inputs:
     required: true
   public-key:
     description: Repository-relative path to the Ed25519 public key
-    required: true
+    required: false
   public-key-sha256:
     description: Trusted SHA-256 fingerprint supplied outside pull-request content
-    required: true
+    required: false
+  trust-bundle:
+    description: Repository-relative path to an offline multi-key trust bundle
+    required: false
+  trust-bundle-sha256:
+    description: Trusted SHA-256 bundle fingerprint supplied outside pull-request content
+    required: false
   status:
     description: Optional repository-relative signed lifecycle-status document
     required: false

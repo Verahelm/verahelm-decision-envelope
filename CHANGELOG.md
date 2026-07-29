@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+## 0.10.0 — 2026-07-28
+
+- Added an offline, digest-pinned multi-key trust bundle with issuer, key ID,
+  and validity-window enforcement.
+- Added pinned dependency review and local-only OpenSSF Scorecard analysis.
+- Standardized the public distribution on Apache-2.0 while retaining explicit
+  private-engine, confidential-material, and trademark boundaries in `NOTICE`.
+
 ## 0.9.0 — 2026-07-28
 
 - Added deterministic canonicalization and parser property tests.

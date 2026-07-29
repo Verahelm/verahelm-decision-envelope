@@ -5,11 +5,14 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { actionOutputs, verifyAction, writeActionOutputs } from "../action/index.mjs";
 import { canonical, validateEnvelope, verifyEnvelope } from "../verifier/verify.mjs";
+import { resolveTrustKey, validateTrustBundle } from "../verifier/trust.mjs";
 import { parseJsonBytes, parseJsonStrict } from "../verifier/json.mjs";
 
 const root = new URL("../", import.meta.url);
 const publicKey = await readFile(new URL("fixtures/fixture-public-key.pem", root), "utf8");
 const publicJwk = await readFile(new URL("fixtures/fixture-public-key.json", root), "utf8");
+const trustBundleText = await readFile(new URL("fixtures/trust-bundle.json", root), "utf8");
+const trustBundle = JSON.parse(trustBundleText);
 const at = new Date("2026-07-27T12:00:00Z");
 
 async function fixture(name) {
@@ -53,6 +56,35 @@ assert.equal((await verifyEnvelope(future, publicKey, at)).status, "tampered");
 
 assert.equal((await verifyEnvelope(await fixture("pass"), "not a key", at)).status, "invalid");
 assert.equal((await verifyEnvelope(await fixture("pass"), publicJwk, at)).status, "pass");
+assert.deepEqual(validateTrustBundle(trustBundle), []);
+const resolvedTrust = resolveTrustKey(trustBundle, await fixture("pass"), at);
+assert.equal(resolvedTrust.fingerprint, `sha256:${createHash("sha256").update(publicKey).digest("hex")}`);
+assert.equal((await verifyEnvelope(await fixture("pass"), resolvedTrust.publicKey, at)).status, "pass");
+const alteredTrust = structuredClone(trustBundle);
+alteredTrust.keys[0].fingerprint = `sha256:${"0".repeat(64)}`;
+assert(validateTrustBundle(alteredTrust).includes("trust_bundle_fingerprint"));
+const duplicateTrust = structuredClone(trustBundle);
+duplicateTrust.keys.push(structuredClone(duplicateTrust.keys[0]));
+assert(validateTrustBundle(duplicateTrust).includes("trust_bundle_duplicate_key"));
+const invalidTrustDate = structuredClone(trustBundle);
+invalidTrustDate.valid_from = "2026-02-30T00:00:00Z";
+assert(validateTrustBundle(invalidTrustDate).includes("trust_bundle_lifecycle"));
+const invalidTrustUnicode = structuredClone(trustBundle);
+invalidTrustUnicode.keys[0].issuer_id = "\ud800";
+assert(validateTrustBundle(invalidTrustUnicode).includes("trust_bundle_key"));
+const expiredTrustKey = structuredClone(trustBundle);
+expiredTrustKey.keys[0].expires_at = "2026-01-01T00:00:00Z";
+assert.deepEqual(
+  resolveTrustKey(expiredTrustKey, await fixture("pass"), at).errors,
+  ["trust_key_expired"]
+);
+const unknownTrust = structuredClone(await fixture("pass"));
+unknownTrust.payload.issuer.key_id = "unlisted-key";
+assert.deepEqual(resolveTrustKey(trustBundle, unknownTrust, at).errors, ["trust_key_unavailable"]);
+assert.deepEqual(
+  resolveTrustKey(trustBundle, await fixture("pass"), new Date("2100-01-01T00:00:00Z")).errors,
+  ["trust_bundle_expired"]
+);
 assert.equal((await verifyEnvelope(
   await fixture("pass"), publicKey, at, null,
   { subjectId: "synthetic-pr-agent", subjectVersion: "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" }
@@ -98,6 +130,28 @@ const actionEnvironment = {
 };
 const runAction = (environment) => verifyAction(environment, at);
 assert.equal((await runAction(actionEnvironment)).status, "pass");
+const trustBundleEnvironment = { ...actionEnvironment };
+delete trustBundleEnvironment["INPUT_PUBLIC-KEY"];
+delete trustBundleEnvironment["INPUT_PUBLIC-KEY-SHA256"];
+trustBundleEnvironment["INPUT_TRUST-BUNDLE"] = "fixtures/trust-bundle.json";
+trustBundleEnvironment["INPUT_TRUST-BUNDLE-SHA256"] =
+  `sha256:${createHash("sha256").update(trustBundleText).digest("hex")}`;
+assert.equal((await runAction(trustBundleEnvironment)).status, "pass");
+await assert.rejects(
+  runAction({
+    ...trustBundleEnvironment,
+    "INPUT_PUBLIC-KEY": "fixtures/fixture-public-key.pem",
+    "INPUT_PUBLIC-KEY-SHA256": keyDigest
+  }),
+  /trust_anchor_required/
+);
+await assert.rejects(
+  runAction({
+    ...trustBundleEnvironment,
+    "INPUT_TRUST-BUNDLE-SHA256": `sha256:${"0".repeat(64)}`
+  }),
+  /trust_bundle_fingerprint_mismatch/
+);
 for (const [status, valid] of [
   ["pass", "true"],
   ["blocked", "false"],
@@ -275,4 +329,4 @@ await assert.rejects(
   /repository_relative_path_required/
 );
 
-process.stdout.write("conformance=pass cases=42 json_corpus=10 canonical_vectors=1 network=none dependencies=none\n");
+process.stdout.write("conformance=pass cases=42 trust_bundle_cases=13 json_corpus=10 canonical_vectors=1 network=none dependencies=none\n");

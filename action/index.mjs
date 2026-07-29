@@ -4,6 +4,7 @@ import { appendFile, lstat, open, realpath } from "node:fs/promises";
 import { isAbsolute, relative, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { verifyEnvelope } from "../verifier/verify.mjs";
+import { resolveTrustKey } from "../verifier/trust.mjs";
 import { decodeUtf8, parseJsonStrict } from "../verifier/json.mjs";
 
 const publicStatuses = new Set([
@@ -52,6 +53,8 @@ export async function verifyAction(env = process.env, now = new Date()) {
   const scopeEnvironment = input("scope-environment");
   const scopeChange = input("scope-change");
   const expectedKeyDigest = input("public-key-sha256");
+  const trustBundlePath = input("trust-bundle");
+  const expectedTrustBundleDigest = input("trust-bundle-sha256");
   const statusMaximumAge = input("status-max-age-seconds");
   if (!subjectId || subjectId.length > 160 || !/^sha256:[a-f0-9]{64}$/.test(subjectVersion)) {
     throw new Error("subject_binding_required");
@@ -61,23 +64,43 @@ export async function verifyAction(env = process.env, now = new Date()) {
       !scopeChange || scopeChange.length > 240) {
     throw new Error("authorization_binding_required");
   }
-  if (!/^sha256:[a-f0-9]{64}$/.test(expectedKeyDigest)) {
+  const publicKeyPath = input("public-key");
+  const usesPublicKey = Boolean(publicKeyPath || expectedKeyDigest);
+  const usesTrustBundle = Boolean(trustBundlePath || expectedTrustBundleDigest);
+  if (usesPublicKey === usesTrustBundle) throw new Error("trust_anchor_required");
+  if (usesPublicKey && (!publicKeyPath || !/^sha256:[a-f0-9]{64}$/.test(expectedKeyDigest))) {
     throw new Error("public_key_fingerprint_required");
+  }
+  if (usesTrustBundle &&
+      (!trustBundlePath || !/^sha256:[a-f0-9]{64}$/.test(expectedTrustBundleDigest))) {
+    throw new Error("trust_bundle_fingerprint_required");
   }
   if (statusMaximumAge && !/^(?:0|[1-9]\d{0,14})$/u.test(statusMaximumAge)) {
     throw new Error("status_freshness_policy");
   }
-  const [documentFile, publicKeyFile, statusFile] = await Promise.all([
+  const [documentFile, trustFile, statusFile] = await Promise.all([
     repositoryFile(workspace, input("envelope"), "decision-envelope.json", 131072),
-    repositoryFile(workspace, input("public-key"), "decision-envelope-public-key.pem", 16384),
+    repositoryFile(
+      workspace,
+      usesPublicKey ? publicKeyPath : trustBundlePath,
+      usesPublicKey ? "decision-envelope-public-key.pem" : null,
+      usesPublicKey ? 16384 : 524288
+    ),
     input("status") ? repositoryFile(workspace, input("status"), null, 131072) : null
   ]);
-  if (publicKeyFile.digest !== expectedKeyDigest) {
-    throw new Error("public_key_fingerprint_mismatch");
+  if (trustFile.digest !== (usesPublicKey ? expectedKeyDigest : expectedTrustBundleDigest)) {
+    throw new Error(usesPublicKey ? "public_key_fingerprint_mismatch" : "trust_bundle_fingerprint_mismatch");
+  }
+  const document = parseJsonStrict(documentFile.text);
+  let publicKeyText = trustFile.text;
+  if (usesTrustBundle) {
+    const resolved = resolveTrustKey(parseJsonStrict(trustFile.text), document, now);
+    if (resolved.errors) return { status: "invalid", valid: false, errors: resolved.errors };
+    publicKeyText = resolved.publicKey;
   }
   return verifyEnvelope(
-    parseJsonStrict(documentFile.text),
-    publicKeyFile.text,
+    document,
+    publicKeyText,
     now,
     statusFile ? parseJsonStrict(statusFile.text) : null,
     {
