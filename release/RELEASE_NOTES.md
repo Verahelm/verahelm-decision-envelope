@@ -1,7 +1,7 @@
-# Verahelm Decision Envelope v0.5.0
+# Verahelm Decision Envelope v0.6.0
 
-This is the first checksummed and attested distribution of the public verifier
-and integration kit.
+This release adds coarse Action outputs and links public blocked and passing
+fictional pull-request checks.
 
 Included:
 
@@ -9,7 +9,8 @@ Included:
 - a verification-only GitHub Action;
 - fictional conformance fixtures;
 - a local CLI and digest-only adapter;
-- a five-minute fictional demonstration.
+- a five-minute fictional demonstration;
+- bounded `status` and string-boolean `valid` Action outputs.
 
 The release does not contain Verahelm's hosted decision engine, private methods,
 customer material, or real engine output. Verification authenticates the
@@ -19,9 +20,9 @@ underlying evidence is true or sufficient.
 ## Verify
 
 ```bash
-gh release download v0.5.0 --repo Verahelm/verahelm-decision-envelope
+gh release download v0.6.0 --repo Verahelm/verahelm-decision-envelope
 sha256sum --check SHA256SUMS
-gh attestation verify verahelm-decision-envelope-0.5.0.tar.gz --repo Verahelm/verahelm-decision-envelope
+gh attestation verify verahelm-decision-envelope-0.6.0.tar.gz --repo Verahelm/verahelm-decision-envelope
 ```
 
 `SOURCE_COMMIT` identifies the exact source revision. The immutable GitHub

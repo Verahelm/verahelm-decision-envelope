@@ -9,7 +9,7 @@ pull-request code, or send envelope data over the network.
 The semantic tag is convenient and immutable for this release:
 
 ```yaml
-- uses: Verahelm/verahelm-decision-envelope@v0.5.0
+- uses: Verahelm/verahelm-decision-envelope@v0.6.0
   with:
     envelope: decision-envelope.json
     public-key: decision-envelope-public-key.pem
@@ -46,11 +46,28 @@ dependency update policies.
 | `scope-environment` | Yes | None | Expected environment from trusted configuration. |
 | `scope-change` | Yes | None | Expected change identifier from workflow context. |
 
-Version 0.5.0 defines no Action outputs. A passing verification exits zero.
+## Outputs
+
+| Output | Values |
+|---|---|
+| `status` | `pass`, `blocked`, `expired`, `revoked`, `superseded`, `tampered`, or `invalid` |
+| `valid` | String `true` only for `pass`; string `false` for every other status |
+
+```yaml
+- name: Verify
+  id: verahelm
+  uses: Verahelm/verahelm-decision-envelope@v0.6.0
+  with:
+    # Required inputs omitted here; use the complete example above.
+
+- if: steps.verahelm.outputs.valid == 'true'
+  run: echo "Fictional envelope verification passed"
+```
+
+The Action exits zero only for `pass`, preserving required-check behavior.
 Blocked, expired, revoked, superseded, tampered, mismatched, unsupported, and
-invalid inputs exit one. Logs contain only a bounded status label or the generic
-message `invalid input`; they do not print the envelope, conditions, evidence,
-subject, authority, scope, key, or raw verifier errors.
+invalid inputs exit one. Outputs and logs never contain the envelope,
+conditions, evidence, subject, authority, scope, key, or raw verifier errors.
 
 ## Permissions and event safety
 

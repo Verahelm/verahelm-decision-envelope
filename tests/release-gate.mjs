@@ -99,7 +99,7 @@ const workflow = await readPublic(".github/workflows/verify.yml");
 const releaseWorkflow = await readPublic(".github/workflows/release.yml");
 const actionMetadata = await readPublic("action.yml");
 const actionContract = await readPublic("docs/ACTION.md");
-assert.equal(packageDocument.version, "0.5.0");
+assert.equal(packageDocument.version, "0.6.0");
 assert.equal(packageDocument.name, "verahelm-decision-envelope");
 assert.equal(packageDocument.description,
   "Offline verifier and GitHub Action for Verahelm Decision Envelopes.");
@@ -133,6 +133,8 @@ assert.doesNotMatch(releaseWorkflow, /uses:\s+(?!actions\/(?:checkout|attest-bui
 assert.match(actionMetadata, /^name: Verahelm Decision Envelope verifier$/m);
 assert.match(actionMetadata, /^author: Verahelm Holdings LLC$/m);
 assert.match(actionMetadata, /branding:\s*\n\s*icon: check-square\s*\n\s*color: gray-dark/);
+assert.match(actionMetadata, /outputs:\s*\n\s*status:[\s\S]*\n\s*valid:/);
+assert.match(actionContract, /steps\.verahelm\.outputs\.valid == 'true'/);
 for (const input of [
   "envelope", "public-key", "public-key-sha256", "status",
   "status-max-age-seconds", "subject-id", "subject-version", "authority-id",

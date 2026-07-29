@@ -1,10 +1,24 @@
 // SPDX-License-Identifier: Apache-2.0
 import { createHash } from "node:crypto";
-import { lstat, open, realpath } from "node:fs/promises";
+import { appendFile, lstat, open, realpath } from "node:fs/promises";
 import { isAbsolute, relative, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { verifyEnvelope } from "../verifier/verify.mjs";
 import { decodeUtf8, parseJsonStrict } from "../verifier/json.mjs";
+
+const publicStatuses = new Set([
+  "pass", "blocked", "expired", "revoked", "superseded", "tampered", "invalid"
+]);
+
+export function actionOutputs(result) {
+  const status = publicStatuses.has(result?.status) ? result.status : "invalid";
+  return { status, valid: status === "pass" ? "true" : "false" };
+}
+
+export async function writeActionOutputs(path, outputs) {
+  if (!path) return;
+  await appendFile(path, `status=${outputs.status}\nvalid=${outputs.valid}\n`, "utf8");
+}
 
 async function repositoryFile(workspace, input, fallback, maximum) {
   const requested = input || fallback;
@@ -78,17 +92,26 @@ export async function verifyAction(env = process.env, now = new Date()) {
 }
 
 async function run() {
-  const result = await verifyAction();
-  process.stdout.write(`status=${result.status}\n`);
-  if (!result.valid) {
-    process.stderr.write(`Decision Envelope verification failed: ${result.status}\n`);
+  try {
+    const result = await verifyAction();
+    const outputs = actionOutputs(result);
+    await writeActionOutputs(process.env.GITHUB_OUTPUT, outputs);
+    process.stdout.write(`status=${outputs.status}\n`);
+    if (!result.valid) {
+      process.stderr.write(`Decision Envelope verification failed: ${outputs.status}\n`);
+      process.exitCode = 1;
+    }
+  } catch {
+    try {
+      await writeActionOutputs(process.env.GITHUB_OUTPUT, actionOutputs(null));
+    } catch {
+      // Output failure remains fail closed.
+    }
+    process.stderr.write("Decision Envelope verification failed: invalid input\n");
     process.exitCode = 1;
   }
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
-  run().catch(() => {
-    process.stderr.write("Decision Envelope verification failed: invalid input\n");
-    process.exitCode = 1;
-  });
+  run();
 }

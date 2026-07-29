@@ -32,6 +32,11 @@ inputs:
   scope-change:
     description: Expected authorized change identifier from trusted workflow context
     required: true
+outputs:
+  status:
+    description: Bounded verification status
+  valid:
+    description: Strict string boolean; true only when status is pass
 runs:
   using: node20
   main: action/index.mjs

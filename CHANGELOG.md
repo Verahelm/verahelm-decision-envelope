@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+## 0.6.0 — 2026-07-28
+
+- Added bounded `status` and string-boolean `valid` Action outputs.
+- Preserved fail-closed exits and restricted outputs to coarse public values.
+- Added public blocked and passing pull-request checks.
+- Documented every Action input, output, permission, exit, and trust boundary.
+
 ## 0.5.0 — 2026-07-28
 
 - Added a literal clean-checkout demonstration with exact fictional output.

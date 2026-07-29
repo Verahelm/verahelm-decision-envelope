@@ -1,7 +1,9 @@
 import assert from "node:assert/strict";
 import { createHash, generateKeyPairSync, sign as createSignature } from "node:crypto";
-import { readFile } from "node:fs/promises";
-import { verifyAction } from "../action/index.mjs";
+import { mkdtemp, readFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { actionOutputs, verifyAction, writeActionOutputs } from "../action/index.mjs";
 import { canonical, validateEnvelope, verifyEnvelope } from "../verifier/verify.mjs";
 import { parseJsonBytes, parseJsonStrict } from "../verifier/json.mjs";
 
@@ -96,6 +98,21 @@ const actionEnvironment = {
 };
 const runAction = (environment) => verifyAction(environment, at);
 assert.equal((await runAction(actionEnvironment)).status, "pass");
+for (const [status, valid] of [
+  ["pass", "true"],
+  ["blocked", "false"],
+  ["expired", "false"],
+  ["revoked", "false"],
+  ["superseded", "false"],
+  ["tampered", "false"],
+  ["invalid", "false"]
+]) assert.deepEqual(actionOutputs({ status }), { status, valid });
+assert.deepEqual(actionOutputs({ status: "unsupported" }), { status: "invalid", valid: "false" });
+assert.deepEqual(actionOutputs(null), { status: "invalid", valid: "false" });
+const actionOutputDirectory = await mkdtemp(join(tmpdir(), "verahelm-action-output-"));
+const actionOutputPath = join(actionOutputDirectory, "github-output");
+await writeActionOutputs(actionOutputPath, actionOutputs({ status: "pass" }));
+assert.equal(await readFile(actionOutputPath, "utf8"), "status=pass\nvalid=true\n");
 assert.deepEqual(
   (await runAction({ ...actionEnvironment, "INPUT_AUTHORITY-ID": "different-customer" })).errors,
   ["authority_mismatch"]
