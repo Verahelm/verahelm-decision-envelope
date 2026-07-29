@@ -1,5 +1,27 @@
 # Verahelm Decision Envelope
 
+Verahelm verifies whether a signed authorization record is valid for the exact pull request or agent change under review.
+
+## Five-minute quick start
+
+Requires Git and Node.js 20 or later.
+
+```bash
+git clone --depth 1 https://github.com/Verahelm/verahelm-decision-envelope.git && cd verahelm-decision-envelope && node cli/verahelm.mjs demo
+```
+
+Expected fictional output:
+
+```json
+{"status":"demo_complete","results":[{"fixture":"pass","status":"pass"},{"fixture":"blocked","status":"blocked"},{"fixture":"expired","status":"expired"},{"fixture":"tampered","status":"tampered"}]}
+```
+
+Successful verification proves that a supplied fictional envelope matches the
+published schema, signature, lifecycle, and expected bindings at verification
+time. It does not prove the truth or quality of underlying evidence, authorize
+production use, execute Verahelm's private engine, or discover a later
+revocation without a sufficiently fresh signed status.
+
 ![Verahelm Decision Envelope: signed, subject-bound, expiring change authorization](docs/assets/repository-preview.svg)
 
 Test results, security findings, policy decisions, and review notes show what was
@@ -14,16 +36,8 @@ profiles under the same contract.
 
 The public contract accepts structured summaries and digests. It defines no
 fields for repositories, source code, prompts, traces, files, datasets, or raw
-records.
-
-## Run the example
-
-```bash
-node cli/verahelm.mjs demo
-```
-
-The command loads four fictional envelopes and checks valid, blocked, expired,
-and tampered outcomes. It runs locally without network access.
+records. The fictional quick start runs locally without network access after
+the repository is cloned.
 
 ## Add the verifier to a pull request
 

@@ -100,6 +100,10 @@ assert.equal(packageDocument.version, "0.4.0");
 assert.equal(packageDocument.name, "verahelm-decision-envelope");
 assert.equal(packageDocument.description,
   "Offline verifier and GitHub Action for Verahelm Decision Envelopes.");
+assert.match(readme, /^# Verahelm Decision Envelope\n\nVerahelm verifies whether a signed authorization record is valid/u);
+assert.match(readme, /git clone --depth 1 https:\/\/github\.com\/Verahelm\/verahelm-decision-envelope\.git && cd verahelm-decision-envelope && node cli\/verahelm\.mjs demo/);
+assert.match(readme, /\{"status":"demo_complete","results":\[\{"fixture":"pass","status":"pass"\},\{"fixture":"blocked","status":"blocked"\},\{"fixture":"expired","status":"expired"\},\{"fixture":"tampered","status":"tampered"\}\]\}/);
+assert.match(readme, /It does not prove the truth or quality of underlying evidence/);
 assert.match(readme, /## Add the verifier to a pull request/);
 assert.match(readme, /defines no\s+fields for repositories, source code, prompts, traces, files, datasets, or raw\s+records/);
 assert.match(readme, /Verahelm\/verahelm-decision-envelope@[0-9a-f]{40}/);
