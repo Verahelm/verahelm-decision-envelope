@@ -26,7 +26,7 @@ providing the one-study contribution identifier.
 ## Local aggregation
 
 ```bash
-node measurement/aggregate.mjs examples/measurement/fictional-contributions.json
+node adapters/measurement-aggregate.mjs examples/measurement/fictional-contributions.json
 ```
 
 Expected fictional output:

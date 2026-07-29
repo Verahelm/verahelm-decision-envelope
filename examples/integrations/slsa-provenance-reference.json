@@ -1,5 +1,5 @@
 {
-  "native_verification": "pass",
+  "native_verification": "required_before_reference",
   "predicate_type": "https://slsa.dev/provenance/v1",
   "provenance_digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
   "source": "fictional-slsa-provenance",

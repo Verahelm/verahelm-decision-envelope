@@ -36,6 +36,7 @@ action.yml
 action/index.mjs
 adapters/README.md
 adapters/evidence-digest.mjs
+adapters/measurement-aggregate.mjs
 cli/verahelm.mjs
 demo-pr/README.md
 docs/ARCHITECTURE.md
@@ -66,7 +67,6 @@ fixtures/pass.json
 fixtures/revoked-status.json
 fixtures/superseded-status.json
 fixtures/tampered.json
-measurement/aggregate.mjs
 package.json
 release/SBOM.spdx.json
 release/RELEASE_NOTES.md

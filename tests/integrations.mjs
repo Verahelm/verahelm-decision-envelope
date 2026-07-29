@@ -8,8 +8,8 @@ const vectors = [
   ["opa", "examples/integrations/opa-result.json", "3a9c41dcd5ac2b5d8af28aa35cdfa07599c4e077121e7d217a5220c2acb2c093"],
   ["promptfoo", "examples/integrations/promptfoo-result.json", "819263ee86eff5644796c5460e3315402490773e699af160a7384144fd281344"],
   ["sarif", "examples/integrations/report.sarif.json", "f0ac3e23093fe41fd0f62568e97a330040d93c29d06864ddaca6e90637eb85ad"],
-  ["sigstore", "examples/integrations/sigstore-bundle-reference.json", "1c06a5a4e59d782c34e9b61ad67c456f1fa83700bce1c07a448a51c037020410"],
-  ["slsa", "examples/integrations/slsa-provenance-reference.json", "e4a58cb61d443f9de040e6ab07b8c0125cf149559ab2e2f3144abffef07356dc"]
+  ["sigstore", "examples/integrations/sigstore-bundle-reference.json", "0d459cea224e285ddbfaa631ec573044f263c0b52687f1a75f26ef88fae8472e"],
+  ["slsa", "examples/integrations/slsa-provenance-reference.json", "21966cdc9e64450da2a0f6c61d94fa2652002acba10baf709db8e3f59c2702bc"]
 ];
 
 for (const [kind, path, digest] of vectors) {

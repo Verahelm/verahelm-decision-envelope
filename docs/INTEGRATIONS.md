@@ -95,7 +95,7 @@ node adapters/evidence-digest.mjs sigstore examples/integrations/sigstore-bundle
 Expected output:
 
 ```json
-{"kind":"sigstore","digest":"sha256:1c06a5a4e59d782c34e9b61ad67c456f1fa83700bce1c07a448a51c037020410"}
+{"kind":"sigstore","digest":"sha256:0d459cea224e285ddbfaa631ec573044f263c0b52687f1a75f26ef88fae8472e"}
 ```
 
 Trust boundary: native Sigstore verification establishes bundle authenticity;
@@ -113,7 +113,7 @@ node adapters/evidence-digest.mjs slsa examples/integrations/slsa-provenance-ref
 Expected output:
 
 ```json
-{"kind":"slsa","digest":"sha256:e4a58cb61d443f9de040e6ab07b8c0125cf149559ab2e2f3144abffef07356dc"}
+{"kind":"slsa","digest":"sha256:21966cdc9e64450da2a0f6c61d94fa2652002acba10baf709db8e3f59c2702bc"}
 ```
 
 Trust boundary: the provenance verifier establishes authenticity and policy

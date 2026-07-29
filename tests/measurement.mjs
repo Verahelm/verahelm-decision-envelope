@@ -4,7 +4,7 @@ import { resolve } from "node:path";
 import {
   aggregateContributions,
   minimumContributors
-} from "../measurement/aggregate.mjs";
+} from "../adapters/measurement-aggregate.mjs";
 
 const root = resolve(new URL("../", import.meta.url).pathname);
 const contributions = JSON.parse(await readFile(

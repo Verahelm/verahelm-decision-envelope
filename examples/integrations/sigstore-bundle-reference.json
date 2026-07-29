@@ -1,6 +1,6 @@
 {
   "artifact_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
   "bundle_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-  "native_verification": "pass",
+  "native_verification": "required_before_reference",
   "source": "fictional-sigstore-bundle"
 }
