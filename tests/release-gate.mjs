@@ -129,6 +129,8 @@ const dependencyReviewWorkflow = await readPublic(".github/workflows/dependency-
 const scorecardWorkflow = await readPublic(".github/workflows/scorecard.yml");
 const actionMetadata = await readPublic("action.yml");
 const actionContract = await readPublic("docs/ACTION.md");
+const releaseGuide = await readPublic("docs/RELEASES.md");
+const templateWorkflow = await readPublic("template/verahelm-change-gate.yml");
 const repositoryPreview = await readPublic("docs/assets/repository-preview.svg");
 assert.equal(packageDocument.version, "0.10.0");
 assert.equal(packageDocument.name, "verahelm-decision-envelope");
@@ -141,6 +143,11 @@ assert.match(readme, /It does not prove the truth or quality of underlying evide
 assert.match(readme, /## Add the verifier to a pull request/);
 assert.match(readme, /defines no\s+fields for repositories, source code, prompts, traces, files, datasets, or raw\s+records/);
 assert.match(readme, /Verahelm\/verahelm-decision-envelope@[0-9a-f]{40}/);
+const releasedActionPin = "c45bee9dbfa2587ccfa8735d5138ddc51273961c";
+for (const document of [readme, actionContract, releaseGuide, templateWorkflow]) {
+  assert.match(document,
+    new RegExp(`Verahelm/verahelm-decision-envelope@${releasedActionPin}`));
+}
 assert.match(readme, /## Role in the toolchain/);
 assert.match(readme, /## Published components/);
 assert.match(readme, /verahelm-decision-envelope-demo\/pull\/1/);

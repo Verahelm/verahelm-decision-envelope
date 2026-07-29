@@ -21,7 +21,7 @@ this project.
 Consumers should pin the Action to the full 40-character commit SHA:
 
 ```yaml
-- uses: Verahelm/verahelm-decision-envelope@687404bc44b72cac09c0ad1e5bc196b7ae653baa
+- uses: Verahelm/verahelm-decision-envelope@c45bee9dbfa2587ccfa8735d5138ddc51273961c
 ```
 
 The pin identifies the reviewed Action implementation. Documentation-only
