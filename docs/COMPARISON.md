@@ -94,7 +94,7 @@ Checked against official pages on 2026-07-28. Prices and packaging can change; p
 | Snyk Agent Scan | Apache-2.0 CLI; enterprise service pricing is account-specific. |
 | MCP authorization specification | Protocol specification; no product price. |
 | Cloudflare Agents MCP authorization | Included within Cloudflare's applicable platform and usage pricing rather than sold as a Decision Envelope service. |
-| Verahelm | Developer $49/month for 60 units; Professional $149/month for 300 units. Hard daily and monthly caps; no automatic overage. |
+| Verahelm | Developer $49/month for 300 units; Professional $149/month for 1,500 units. Hard daily and monthly caps; no automatic overage. |
 
 ## Verahelm boundary
 
