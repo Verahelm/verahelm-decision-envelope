@@ -42,7 +42,7 @@ the repository is cloned.
 ## Run without cloning
 
 ```bash
-npm exec --yes --ignore-scripts --package=https://github.com/Verahelm/verahelm-decision-envelope/releases/download/v0.8.0/verahelm-decision-envelope-0.8.0.tgz -- verahelm-envelope demo
+npm exec --yes --ignore-scripts --package=https://github.com/Verahelm/verahelm-decision-envelope/releases/download/v0.8.1/verahelm-decision-envelope-0.8.1.tgz -- verahelm-envelope demo
 ```
 
 The version-pinned package is dependency-free and attached to an immutable,

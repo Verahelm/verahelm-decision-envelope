@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## 0.8.1 — 2026-07-28
+
+- Updated pinned `actions/checkout` and `actions/setup-node` revisions to their
+  current Node.js 24-based releases.
+
 ## 0.8.0 — 2026-07-28
 
 - Hardened the default-deny release gate with generated-file, dependency,

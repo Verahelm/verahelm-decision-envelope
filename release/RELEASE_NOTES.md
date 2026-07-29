@@ -1,7 +1,7 @@
-# Verahelm Decision Envelope v0.8.0
+# Verahelm Decision Envelope v0.8.1
 
 This release adds public-safe interoperability recipes, stronger disclosure
-gates, and local aggregate pilot measurement.
+gates, local aggregate pilot measurement, and Node.js 24-based workflow pins.
 
 Included:
 
@@ -26,10 +26,10 @@ underlying evidence is true or sufficient.
 ## Verify
 
 ```bash
-gh release download v0.8.0 --repo Verahelm/verahelm-decision-envelope
+gh release download v0.8.1 --repo Verahelm/verahelm-decision-envelope
 sha256sum --check SHA256SUMS
-gh attestation verify verahelm-decision-envelope-0.8.0.tar.gz --repo Verahelm/verahelm-decision-envelope
-gh attestation verify verahelm-decision-envelope-0.8.0.tgz --repo Verahelm/verahelm-decision-envelope
+gh attestation verify verahelm-decision-envelope-0.8.1.tar.gz --repo Verahelm/verahelm-decision-envelope
+gh attestation verify verahelm-decision-envelope-0.8.1.tgz --repo Verahelm/verahelm-decision-envelope
 ```
 
 `SOURCE_COMMIT` identifies the exact source revision. The immutable GitHub

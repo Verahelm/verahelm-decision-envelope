@@ -19,16 +19,16 @@ jobs:
     timeout-minutes: 8
     steps:
       - name: Check out exact revision
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
       - name: Select Node.js
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
         with:
           node-version: ${{ matrix.node }}
       - name: Build package
         run: npm pack
       - name: Install without lifecycle scripts
-        run: npm install --ignore-scripts --no-audit --no-fund --no-save ./verahelm-decision-envelope-0.8.0.tgz
+        run: npm install --ignore-scripts --no-audit --no-fund --no-save ./verahelm-decision-envelope-0.8.1.tgz
       - name: Run packaged fictional demo
         run: npx --no-install verahelm-envelope demo
