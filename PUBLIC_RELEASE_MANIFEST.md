@@ -43,12 +43,19 @@ docs/ACTION.md
 docs/CLI.md
 docs/COMPARISON.md
 docs/INTEGRATIONS.md
+docs/INTEROPERABILITY.md
 docs/LIMITATIONS.md
 docs/PACKAGE.md
 docs/RELEASES.md
 docs/ROADMAP.md
 docs/assets/repository-preview.svg
 docs/index.md
+examples/integrations/opa-result.json
+examples/integrations/promptfoo-result.json
+examples/integrations/report.sarif.json
+examples/integrations/sigstore-bundle-reference.json
+examples/integrations/slsa-provenance-reference.json
+examples/interoperability/in-toto-envelope-reference.json
 fixtures/blocked.json
 fixtures/expired.json
 fixtures/fixture-public-key.json
@@ -68,6 +75,7 @@ template/README.md
 template/verahelm-change-gate.yml
 tests/cli.mjs
 tests/conformance.mjs
+tests/integrations.mjs
 tests/package.mjs
 tests/release-gate.mjs
 verifier/json.mjs

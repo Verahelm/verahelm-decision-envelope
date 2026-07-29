@@ -1,0 +1,12 @@
+{
+  "result": [
+    {
+      "expressions": [
+        {
+          "text": "data.fictional.release.allow",
+          "value": true
+        }
+      ]
+    }
+  ]
+}

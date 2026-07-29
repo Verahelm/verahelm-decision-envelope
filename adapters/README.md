@@ -11,4 +11,8 @@ node adapters/evidence-digest.mjs artifact artifact.bin
 node adapters/evidence-digest.mjs attestation provenance.json
 ```
 
+Additional labels are available for `cyclonedx`, `in_toto`, `promptfoo`,
+`sigstore`, `slsa`, and `spdx`. Labels describe the producer format; the
+adapter still hashes bytes only.
+
 The output is a public `evidence_ref` containing only a type and SHA-256 digest. The adapter does not claim that the artifact is correct, sufficient, independent, or safe to disclose. Keep the underlying artifact under your own access controls.

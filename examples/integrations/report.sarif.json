@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+  "runs": [
+    {
+      "results": [],
+      "tool": {
+        "driver": {
+          "name": "Fictional Scanner",
+          "version": "1.0.0"
+        }
+      }
+    }
+  ],
+  "version": "2.1.0"
+}

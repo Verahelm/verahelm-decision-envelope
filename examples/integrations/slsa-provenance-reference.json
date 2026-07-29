@@ -1,0 +1,7 @@
+{
+  "native_verification": "pass",
+  "predicate_type": "https://slsa.dev/provenance/v1",
+  "provenance_digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "source": "fictional-slsa-provenance",
+  "subject_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+}

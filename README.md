@@ -175,6 +175,8 @@ effort with no response-time SLA.
 - [Request a non-production testing key](https://www.verahelm.com/access#testing-key)
 - [Decision Envelope specification](SPECIFICATION.md)
 - [GitHub Action contract](docs/ACTION.md)
+- [Digest-only integration recipes](docs/INTEGRATIONS.md)
+- [DSSE and in-toto mapping](docs/INTEROPERABILITY.md)
 - [Threat model](THREAT_MODEL.md)
 - [Versioning policy](VERSIONING.md)
 - [GitHub and attestation integration](docs/INTEGRATIONS.md#github-change-enforcement)

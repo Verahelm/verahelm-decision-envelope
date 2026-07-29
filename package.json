@@ -27,7 +27,7 @@
     "node": ">=20"
   },
   "scripts": {
-    "test": "node tests/conformance.mjs && node tests/cli.mjs && node tests/package.mjs && node tests/release-gate.mjs",
+    "test": "node tests/conformance.mjs && node tests/cli.mjs && node tests/package.mjs && node tests/integrations.mjs && node tests/release-gate.mjs",
     "verify": "node cli/verahelm.mjs verify fixtures/pass.json --key fixtures/fixture-public-key.pem",
     "demo": "node cli/verahelm.mjs demo"
   }

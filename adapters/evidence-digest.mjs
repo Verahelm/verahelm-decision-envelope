@@ -3,7 +3,20 @@ import { createHash } from "node:crypto";
 import { open, stat } from "node:fs/promises";
 import { pathToFileURL } from "node:url";
 
-const kinds = new Set(["sarif", "junit", "opa", "eval_report", "artifact", "attestation"]);
+const kinds = new Set([
+  "artifact",
+  "attestation",
+  "cyclonedx",
+  "eval_report",
+  "in_toto",
+  "junit",
+  "opa",
+  "promptfoo",
+  "sarif",
+  "sigstore",
+  "slsa",
+  "spdx"
+]);
 
 export async function evidenceDigest(kind, path) {
   if (!kinds.has(kind)) throw new Error("unsupported_kind");
@@ -25,7 +38,9 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
   evidenceDigest(process.argv[2], process.argv[3]).then((value) => {
     process.stdout.write(`${JSON.stringify(value)}\n`);
   }).catch(() => {
-    process.stderr.write("usage: node adapters/evidence-digest.mjs sarif|junit|opa|eval_report|artifact|attestation FILE\n");
+    process.stderr.write(
+      `usage: node adapters/evidence-digest.mjs ${[...kinds].join("|")} FILE\n`
+    );
     process.exitCode = 64;
   });
 }
