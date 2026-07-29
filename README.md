@@ -71,6 +71,9 @@ does not. See the [package security and verification guide](docs/PACKAGE.md).
 
 ## Add the verifier to a pull request
 
+[Install the verification-only Action from GitHub Marketplace](https://github.com/marketplace/actions/verahelm-decision-envelope-verifier).
+For a required gate, pin the full reviewed commit SHA as shown below.
+
 ```yaml
 permissions:
   contents: read
