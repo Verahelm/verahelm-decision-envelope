@@ -1,50 +1,65 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img" aria-labelledby="title description">
-  <title id="title">Verahelm — Make the call. Keep the boundary.</title>
-  <desc id="description">Verahelm Decision Envelope branding with a static projection of a rotating tesseract.</desc>
+  <title id="title">Verahelm Decision Envelope public verifier</title>
+  <desc id="description">A technical summary of signed, revision-bound pull-request authorization and offline verification.</desc>
   <rect width="1280" height="640" fill="#030403"/>
-  <circle cx="982" cy="320" r="298" fill="#071006" fill-opacity=".28"/>
-  <circle cx="982" cy="320" r="252" fill="none" stroke="#f2f2ee" stroke-opacity=".06"/>
-  <circle cx="982" cy="320" r="194" fill="none" stroke="#f2f2ee" stroke-opacity=".035"/>
   <path d="M0 54h1280M0 586h1280M54 0v640M1226 0v640" stroke="#f2f2ee" stroke-opacity=".07"/>
   <path d="M54 54h132M1094 54h132M54 586h132M1094 586h132" stroke="#d8ff68" stroke-opacity=".7"/>
 
   <g transform="translate(78 67)">
-    <rect width="38" height="38" rx="4" fill="#050505" stroke="#f2f2ee" stroke-opacity=".16"/>
-    <g transform="translate(5 5)" fill="none" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M2 8h17v17H2ZM9 2h17v17H9ZM2 8l7-6m10 6 7-6m-7 23 7-6M2 25l7-6M10 11h8v8h-8Zm3-3h8v8h-8Z" stroke="#f2f2ee" stroke-width="1.1"/>
-      <path d="m2 8 8 3m9-3-1 3m1 14-1-6M2 25l8-6m-1-17 4 6m13-6-5 6m5 11-5-3m-12 3 4-3" stroke="#d8ff68" stroke-width=".9"/>
-    </g>
+    <rect width="38" height="38" rx="4" fill="#050505" stroke="#f2f2ee" stroke-opacity=".2"/>
+    <path d="M10 12h18v14H10Zm0 0 9 7 9-7" fill="none" stroke="#f2f2ee" stroke-width="1.4" stroke-linejoin="round"/>
+    <path d="m22 25 3 3 6-7" fill="none" stroke="#d8ff68" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
     <text x="54" y="17" fill="#f2f2ee" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" letter-spacing="4">VERAHELM</text>
     <text x="54" y="34" fill="#777771" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="8" letter-spacing="2">DECISION ENVELOPE / PUBLIC VERIFIER</text>
   </g>
 
-  <g transform="translate(78 165)">
-    <text x="0" y="0" fill="#d8ff68" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" letter-spacing="2.7">BOUNDED CHANGE AUTHORIZATION</text>
-    <text x="0" y="82" fill="#f2f2ee" font-family="Arial, Helvetica, sans-serif" font-size="72" font-weight="750" letter-spacing="-2.5">MAKE THE CALL.</text>
-    <text x="0" y="166" fill="#d8ff68" font-family="Arial, Helvetica, sans-serif" font-size="72" font-weight="400" letter-spacing="-2.5">KEEP THE</text>
-    <text x="0" y="244" fill="#d8ff68" font-family="Arial, Helvetica, sans-serif" font-size="72" font-weight="400" letter-spacing="-2.5">BOUNDARY.</text>
-    <path d="M0 281h520" stroke="#f2f2ee" stroke-opacity=".18"/>
-    <text x="0" y="318" fill="#b0b0aa" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" letter-spacing="1.25">SIGNED · SUBJECT-BOUND · EXPIRING · REVOCABLE</text>
-    <text x="0" y="358" fill="#777771" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" letter-spacing="1.4">PULL REQUESTS / AGENTS / OFFLINE VERIFICATION</text>
-  </g>
-
-  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M732 322c70-246 405-316 501-69M735 339c80 245 408 297 494 38" stroke="#f2f2ee" stroke-opacity=".065" stroke-width="1"/>
-    <path d="M754 449c175 67 399-58 445-259" stroke="#d8ff68" stroke-opacity=".11" stroke-width="1"/>
-    <g transform="translate(785 115) scale(6.15)">
-      <g transform="rotate(-8 32 32)" stroke="#d8ff68" stroke-opacity=".075" stroke-width="1.2" vector-effect="non-scaling-stroke">
-        <path d="M8 20h32v32H8Zm12-12h32v32H20ZM8 20l12-12m20 12L52 8M40 52l12-12M8 52l12-12"/>
-      </g>
-      <circle cx="32" cy="32" r="29" stroke="#f2f2ee" stroke-opacity=".13" stroke-width="1.4" vector-effect="non-scaling-stroke"/>
-      <path d="M8 20h32v32H8Zm12-12h32v32H20ZM8 20l12-12m20 12L52 8M40 52l12-12M8 52l12-12M23 25h14v14H23Zm5-5h14v14H28ZM23 25l5-5m9 5 5-5m-5 19 5-5m-19 5 5-5" stroke="#f2f2ee" stroke-opacity=".92" stroke-width="2.35" vector-effect="non-scaling-stroke"/>
-      <path d="M8 20l15 5m17-5-3 5m3 27-3-13M8 52l15-13M20 8l8 12M52 8 42 20m10 20-10-6m-22 6 8-6" stroke="#d8ff68" stroke-opacity=".96" stroke-width="2.8" vector-effect="non-scaling-stroke"/>
-      <circle cx="32" cy="32" r="1.7" fill="#d8ff68"/>
+  <g transform="translate(78 168)">
+    <text fill="#d8ff68" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" letter-spacing="2.7">AI CHANGE GATES FOR PULL REQUESTS</text>
+    <text y="82" fill="#f2f2ee" font-family="Arial, Helvetica, sans-serif" font-size="66" font-weight="750" letter-spacing="-2.4">VERIFY THE</text>
+    <text y="158" fill="#f2f2ee" font-family="Arial, Helvetica, sans-serif" font-size="66" font-weight="750" letter-spacing="-2.4">EXACT CHANGE.</text>
+    <path d="M0 198h530" stroke="#f2f2ee" stroke-opacity=".18"/>
+    <text y="238" fill="#b0b0aa" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" letter-spacing="1.25">SIGNED · REVISION-BOUND · EXPIRING · REVOCABLE</text>
+    <text y="282" fill="#777771" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" letter-spacing="1.4">OFFLINE VERIFICATION / FAIL-CLOSED RESULT</text>
+    <g transform="translate(0 328)" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">
+      <text x="0" y="14" fill="#74746e" font-size="9" letter-spacing="1.2">EVIDENCE DIGEST</text>
+      <path d="M118 10h42" stroke="#42423f"/>
+      <path d="m156 6 6 4-6 4" fill="none" stroke="#d8ff68"/>
+      <text x="178" y="14" fill="#74746e" font-size="9" letter-spacing="1.2">SIGNED RECORD</text>
+      <path d="M286 10h42" stroke="#42423f"/>
+      <path d="m324 6 6 4-6 4" fill="none" stroke="#d8ff68"/>
+      <text x="346" y="14" fill="#d8ff68" font-size="9" letter-spacing="1.2">REQUIRED CHECK</text>
     </g>
   </g>
 
-  <g font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="9" letter-spacing="1.4">
-    <text x="754" y="106" fill="#696963">4D PROJECTION / STATIC FRAME</text>
-    <text x="1008" y="519" fill="#696963">16 VERTICES / 32 EDGES</text>
-    <text x="1047" y="548" fill="#d8ff68">VERIFICATION / OFFLINE</text>
+  <g transform="translate(752 105)">
+    <rect width="420" height="430" rx="6" fill="#070907" stroke="#f2f2ee" stroke-opacity=".18"/>
+    <rect x="1" y="1" width="418" height="54" rx="5" fill="#0b0d0b"/>
+    <text x="24" y="33" fill="#f2f2ee" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" letter-spacing="2">DECISION ENVELOPE</text>
+    <rect x="318" y="17" width="78" height="23" rx="2" fill="#d8ff68" fill-opacity=".08" stroke="#d8ff68" stroke-opacity=".6"/>
+    <text x="357" y="32" text-anchor="middle" fill="#d8ff68" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="9" letter-spacing="1.5">PASS</text>
+
+    <g font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">
+      <g transform="translate(24 92)">
+        <text fill="#666661" font-size="9" letter-spacing="1.3">SUBJECT</text>
+        <text y="24" fill="#e5e5df" font-size="12">pull-request / exact revision</text>
+      </g>
+      <path d="M24 139h372" stroke="#f2f2ee" stroke-opacity=".08"/>
+      <g transform="translate(24 170)">
+        <text fill="#666661" font-size="9" letter-spacing="1.3">AUTHORITY + SCOPE</text>
+        <text y="24" fill="#e5e5df" font-size="12">customer / repository / change</text>
+      </g>
+      <path d="M24 217h372" stroke="#f2f2ee" stroke-opacity=".08"/>
+      <g transform="translate(24 248)">
+        <text fill="#666661" font-size="9" letter-spacing="1.3">LIFECYCLE</text>
+        <text y="24" fill="#e5e5df" font-size="12">expiry / revocation / supersession</text>
+      </g>
+      <path d="M24 295h372" stroke="#f2f2ee" stroke-opacity=".08"/>
+      <g transform="translate(24 326)">
+        <text fill="#666661" font-size="9" letter-spacing="1.3">TRUST</text>
+        <text y="24" fill="#e5e5df" font-size="12">Ed25519 / pinned key fingerprint</text>
+      </g>
+      <rect x="24" y="381" width="372" height="25" rx="2" fill="#d8ff68" fill-opacity=".06" stroke="#d8ff68" stroke-opacity=".35"/>
+      <text x="210" y="397" text-anchor="middle" fill="#d8ff68" font-size="9" letter-spacing="1.6">VERIFIED OFFLINE</text>
+    </g>
   </g>
 </svg>

@@ -123,9 +123,11 @@ const license = await readPublic("LICENSE");
 const workflow = await readPublic(".github/workflows/verify.yml");
 const releaseWorkflow = await readPublic(".github/workflows/release.yml");
 const packageWorkflow = await readPublic(".github/workflows/package.yml");
+const codeqlWorkflow = await readPublic(".github/workflows/codeql.yml");
 const actionMetadata = await readPublic("action.yml");
 const actionContract = await readPublic("docs/ACTION.md");
-assert.equal(packageDocument.version, "0.8.1");
+const repositoryPreview = await readPublic("docs/assets/repository-preview.svg");
+assert.equal(packageDocument.version, "0.9.0");
 assert.equal(packageDocument.name, "verahelm-decision-envelope");
 assert.equal(packageDocument.description,
   "Offline verifier and GitHub Action for Verahelm Decision Envelopes.");
@@ -146,7 +148,8 @@ for (const stream of [
   "Hosted API contract", "Decision Envelope schema", "Verifier and integration kit",
   "GitHub Action", "Public result/code vocabulary"
 ]) assert.match(versioning, new RegExp(stream));
-assert.match(license, /No license to Verahelm's private engine, methods,\s+thresholds, prompts, production service, data, or trademarks is granted/);
+assert.match(license, /No license to Verahelm's private engine, methods, thresholds,\s+prompts, production service, confidential material, data, or trademarks is\s+granted/);
+assert.match(license, /schemas, fictional fixtures, and specification material needed to implement or\s+test a compatible verifier/);
 assert.doesNotMatch(license, /\bMIT License\b/);
 assert.match(workflow, /permissions:\s*\n\s*contents: read/);
 assert.doesNotMatch(workflow, /pull-requests: write|contents: write|id-token: write/);
@@ -165,6 +168,11 @@ assert.match(packageWorkflow, /os: \[ubuntu-latest, macos-latest, windows-latest
 assert.match(packageWorkflow, /node: \[20, 22, 24\]/);
 assert.match(packageWorkflow, /npm install --ignore-scripts/);
 assert.match(packageWorkflow, /permissions:\s*\n\s*contents: read/);
+assert.match(codeqlWorkflow, /github\/codeql-action\/init@e58424170fb0262c8d7ed60a2e84b9bffe205c67/);
+assert.match(codeqlWorkflow, /github\/codeql-action\/analyze@e58424170fb0262c8d7ed60a2e84b9bffe205c67/);
+assert.match(codeqlWorkflow, /security-events: write/);
+assert.match(codeqlWorkflow, /contents: read/);
+assert.doesNotMatch(codeqlWorkflow, /contents: write|pull-requests: write|id-token: write/);
 assert.deepEqual(packageDocument.bin, { "verahelm-envelope": "cli/verahelm.mjs" });
 assert.deepEqual(packageDocument.dependencies ?? {}, {});
 assert.deepEqual(packageDocument.devDependencies ?? {}, {});
@@ -186,6 +194,9 @@ assert.match(actionContract, /does not call Verahelm's hosted service/);
 assert.match(disclosureChecklist, /Synthetic or fictional data only/);
 assert.match(disclosureChecklist, /Owner approval is recorded before publication/);
 assert.match(manifest, /Publication remains an owner-controlled action/);
+assert.match(repositoryPreview, /VERIFY THE/);
+assert.match(repositoryPreview, /DECISION ENVELOPE/);
+assert.doesNotMatch(repositoryPreview, /tesseract|4D PROJECTION|16 VERTICES/iu);
 
 // In-memory negative controls ensure the disclosure checks fail closed without
 // adding usable credentials or prohibited artifacts to the repository.

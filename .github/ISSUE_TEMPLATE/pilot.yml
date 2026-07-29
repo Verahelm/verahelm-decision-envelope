@@ -1,0 +1,41 @@
+name: Pilot feedback
+description: Report non-confidential results from a fictional or approved pull-request gate pilot.
+title: "[Pilot] "
+labels: ["pilot"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not submit source code, prompts, traces, envelopes, evidence, keys, customer identifiers, private decisions, or confidential information.
+  - type: dropdown
+    id: stage
+    attributes:
+      label: Pilot stage
+      options:
+        - Installation
+        - Fictional verification
+        - Non-production evaluation
+        - Completed
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Non-confidential outcome
+      description: State the workflow result without including payloads or private data.
+    validations:
+      required: true
+  - type: textarea
+    id: friction
+    attributes:
+      label: Main friction
+      description: Identify one documented step, error category, or missing integration.
+    validations:
+      required: true
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Disclosure check
+      options:
+        - label: I removed confidential material and real decision data.
+          required: true

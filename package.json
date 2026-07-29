@@ -1,6 +1,6 @@
 {
   "name": "verahelm-decision-envelope",
-  "version": "0.8.1",
+  "version": "0.9.0",
   "private": true,
   "description": "Offline verifier and GitHub Action for Verahelm Decision Envelopes.",
   "license": "SEE LICENSE IN LICENSE",
@@ -27,7 +27,7 @@
     "node": ">=20"
   },
   "scripts": {
-    "test": "node tests/conformance.mjs && node tests/cli.mjs && node tests/package.mjs && node tests/integrations.mjs && node tests/measurement.mjs && node tests/release-gate.mjs",
+    "test": "node tests/conformance.mjs && node tests/properties.mjs && node tests/cli.mjs && node tests/package.mjs && node tests/integrations.mjs && node tests/measurement.mjs && node tests/release-gate.mjs",
     "verify": "node cli/verahelm.mjs verify fixtures/pass.json --key fixtures/fixture-public-key.pem",
     "demo": "node cli/verahelm.mjs demo"
   }

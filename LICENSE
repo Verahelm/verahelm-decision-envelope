@@ -4,11 +4,13 @@ Copyright 2026 Verahelm Holdings LLC.
 
 The executable code in `action/`, `adapters/`, `cli/`, `scripts/`, `template/`,
 `tests/`, and `verifier/`, together with `action.yml`, is licensed under the
-Apache License, Version 2.0. The full text is in `LICENSES/Apache-2.0.txt`.
+Apache License, Version 2.0. The same license applies to the deliberately public
+schemas, fictional fixtures, and specification material needed to implement or
+test a compatible verifier. The full text is in `LICENSES/Apache-2.0.txt`.
 
-Documentation, specifications, schemas, examples, fixtures, names, and marks are
-copyright Verahelm Holdings LLC and are provided for public inspection and
-interoperability testing. No license to Verahelm's private engine, methods,
-thresholds, prompts, production service, data, or trademarks is granted.
+All other documentation, names, branding, and marks are copyright Verahelm
+Holdings LLC. No license to Verahelm's private engine, methods, thresholds,
+prompts, production service, confidential material, data, or trademarks is
+granted. Nothing in this repository represents or licenses that private engine.
 
 SPDX identifier for the reusable code: Apache-2.0

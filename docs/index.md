@@ -16,4 +16,4 @@ node cli/verahelm.mjs validate fixtures/pass.json
 node cli/verahelm.mjs verify fixtures/pass.json --key fixtures/fixture-public-key.pem
 ```
 
-[Action installation](../README.md#add-the-verifier-to-a-pull-request) · [Specification](../SPECIFICATION.md) · [Integration recipes](INTEGRATIONS.md) · [Standards mapping](INTEROPERABILITY.md) · [Opt-in measurement](MEASUREMENT.md) · [Threat model](../THREAT_MODEL.md) · [Privacy boundary](../PRIVACY_BOUNDARY.md) · [API documentation](https://www.verahelm.com/api-docs)
+[Action installation](../README.md#add-the-verifier-to-a-pull-request) · [Pilot](PILOT.md) · [Enterprise review](ENTERPRISE_REVIEW.md) · [Specification](../SPECIFICATION.md) · [Integration recipes](INTEGRATIONS.md) · [Standards mapping](INTEROPERABILITY.md) · [Opt-in measurement](MEASUREMENT.md) · [Threat model](../THREAT_MODEL.md) · [Privacy boundary](../PRIVACY_BOUNDARY.md) · [API documentation](https://www.verahelm.com/api-docs)

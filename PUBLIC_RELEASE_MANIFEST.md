@@ -1,6 +1,6 @@
 # Public release manifest
 
-Candidate: `verahelm-decision-envelope-public` 0.8.1
+Candidate: `verahelm-decision-envelope-public` 0.9.0
 Boundary: explicit allowlist; default deny; no repository history.
 
 ## Allowlist
@@ -11,7 +11,10 @@ Only these paths may enter the public repository:
 .github/ISSUE_TEMPLATE/adapter.yml
 .github/ISSUE_TEMPLATE/bug.yml
 .github/ISSUE_TEMPLATE/config.yml
+.github/ISSUE_TEMPLATE/pilot.yml
 .github/PULL_REQUEST_TEMPLATE.md
+.github/dependabot.yml
+.github/workflows/codeql.yml
 .github/workflows/package.yml
 .github/workflows/release.yml
 .github/workflows/verify.yml
@@ -43,11 +46,13 @@ docs/ARCHITECTURE.md
 docs/ACTION.md
 docs/CLI.md
 docs/COMPARISON.md
+docs/ENTERPRISE_REVIEW.md
 docs/INTEGRATIONS.md
 docs/INTEROPERABILITY.md
 docs/LIMITATIONS.md
 docs/MEASUREMENT.md
 docs/PACKAGE.md
+docs/PILOT.md
 docs/RELEASES.md
 docs/ROADMAP.md
 docs/assets/repository-preview.svg
@@ -82,6 +87,7 @@ tests/conformance.mjs
 tests/integrations.mjs
 tests/measurement.mjs
 tests/package.mjs
+tests/properties.mjs
 tests/release-gate.mjs
 verifier/json.mjs
 verifier/verify.mjs

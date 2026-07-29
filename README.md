@@ -22,6 +22,16 @@ time. It does not prove the truth or quality of underlying evidence, authorize
 production use, execute Verahelm's private engine, or discover a later
 revocation without a sufficiently fresh signed status.
 
+## Evaluate a pull-request gate
+
+The [bounded pilot](docs/PILOT.md) starts in one private, non-production
+repository and measures review time, setup cost, binding failures, stale reuse,
+and willingness to pay. It uses the existing `agent_change_gate` profile; no
+additional endpoint or disclosure of repository content is required.
+
+[Request a non-production testing key](https://www.verahelm.com/access#testing-key)
+after the fictional local demo succeeds.
+
 ![Verahelm Decision Envelope: signed, subject-bound, expiring change authorization](docs/assets/repository-preview.svg)
 
 Test results, security findings, policy decisions, and review notes show what was
@@ -42,7 +52,7 @@ the repository is cloned.
 ## Run without cloning
 
 ```bash
-npm exec --yes --ignore-scripts --package=https://github.com/Verahelm/verahelm-decision-envelope/releases/download/v0.8.1/verahelm-decision-envelope-0.8.1.tgz -- verahelm-envelope demo
+npm exec --yes --ignore-scripts --package=https://github.com/Verahelm/verahelm-decision-envelope/releases/download/v0.9.0/verahelm-decision-envelope-0.9.0.tgz -- verahelm-envelope demo
 ```
 
 The version-pinned package is dependency-free and attached to an immutable,
@@ -178,6 +188,8 @@ effort with no response-time SLA.
 - [Digest-only integration recipes](docs/INTEGRATIONS.md)
 - [DSSE and in-toto mapping](docs/INTEROPERABILITY.md)
 - [Opt-in aggregate measurement](docs/MEASUREMENT.md)
+- [Pull-request gate pilot](docs/PILOT.md)
+- [Enterprise technical review facts](docs/ENTERPRISE_REVIEW.md)
 - [Threat model](THREAT_MODEL.md)
 - [Versioning policy](VERSIONING.md)
 - [GitHub and attestation integration](docs/INTEGRATIONS.md#github-change-enforcement)

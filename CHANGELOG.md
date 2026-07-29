@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+## 0.9.0 — 2026-07-28
+
+- Added deterministic canonicalization and parser property tests.
+- Added pinned CodeQL analysis and weekly GitHub Actions dependency updates.
+- Added a bounded pull-request pilot and enterprise technical review sheet.
+- Replaced the abstract repository preview with a concrete Decision Envelope
+  verification artifact.
+- Clarified the Apache-2.0 scope for compatible public verifier
+  implementations while preserving the private-engine and trademark boundary.
+
 ## 0.8.1 — 2026-07-28
 
 - Updated pinned `actions/checkout` and `actions/setup-node` revisions to their
