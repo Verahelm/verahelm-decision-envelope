@@ -112,6 +112,8 @@ assert.match(readme, /defines no\s+fields for repositories, source code, prompts
 assert.match(readme, /Verahelm\/verahelm-decision-envelope@[0-9a-f]{40}/);
 assert.match(readme, /## Role in the toolchain/);
 assert.match(readme, /## Published components/);
+assert.match(readme, /verahelm-decision-envelope-demo\/pull\/1/);
+assert.match(readme, /verahelm-decision-envelope-demo\/pull\/2/);
 assert.doesNotMatch(readme, /## (?:Differentiation|Security proof|Start)\b/);
 assert(actual.includes("docs/COMPARISON.md"), "neutral sourced comparison missing");
 for (const stream of [

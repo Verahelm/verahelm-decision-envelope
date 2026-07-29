@@ -100,9 +100,14 @@ exit codes are documented in [docs/CLI.md](docs/CLI.md).
 
 A valid pass envelope exits zero. Blocked, expired, revoked, superseded, and
 tampered envelopes exit nonzero. An optional expected subject and version bind
-verification to the pull request under review. The
-[fictional pull-request example](demo-pr/README.md) shows the transition from a
-blocked envelope to a new passing envelope.
+verification to the pull request under review. The public demonstration shows
+an intentionally
+[blocked pull request](https://github.com/Verahelm/verahelm-decision-envelope-demo/pull/1)
+and an intentionally
+[passing pull request](https://github.com/Verahelm/verahelm-decision-envelope-demo/pull/2).
+Both use prebuilt fictional envelopes and a base-controlled workflow; neither
+result came from the private engine. The
+[local explanation](demo-pr/README.md) describes the same lifecycle transition.
 
 ## Hosted API profiles
 
