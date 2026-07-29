@@ -96,7 +96,8 @@ const readme = await readPublic("README.md");
 const versioning = await readPublic("VERSIONING.md");
 const license = await readPublic("LICENSE");
 const workflow = await readPublic(".github/workflows/verify.yml");
-assert.equal(packageDocument.version, "0.4.0");
+const releaseWorkflow = await readPublic(".github/workflows/release.yml");
+assert.equal(packageDocument.version, "0.5.0");
 assert.equal(packageDocument.name, "verahelm-decision-envelope");
 assert.equal(packageDocument.description,
   "Offline verifier and GitHub Action for Verahelm Decision Envelopes.");
@@ -119,6 +120,12 @@ assert.match(license, /No license to Verahelm's private engine, methods,\s+thres
 assert.doesNotMatch(license, /\bMIT License\b/);
 assert.match(workflow, /permissions:\s*\n\s*contents: read/);
 assert.doesNotMatch(workflow, /pull-requests: write|contents: write|id-token: write/);
+assert.match(releaseWorkflow, /actions\/checkout@[0-9a-f]{40}/);
+assert.match(releaseWorkflow, /actions\/attest-build-provenance@[0-9a-f]{40}/);
+assert.match(releaseWorkflow, /permissions:\s*\n\s*contents: write\s*\n\s*id-token: write\s*\n\s*attestations: write/);
+assert.match(releaseWorkflow, /gh release create[\s\S]*--draft/);
+assert.match(releaseWorkflow, /gh release edit[\s\S]*--draft=false/);
+assert.doesNotMatch(releaseWorkflow, /uses:\s+(?!actions\/(?:checkout|attest-build-provenance)@)/);
 
 for (const name of ["pass", "blocked", "expired", "tampered"]) {
   const fixture = JSON.parse(await readFile(resolve(root, "fixtures", `${name}.json`), "utf8"));

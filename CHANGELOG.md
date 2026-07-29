@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+## 0.5.0 — 2026-07-28
+
+- Added a literal clean-checkout demonstration with exact fictional output.
+- Added a pinned least-privilege release workflow, deterministic source archive,
+  SHA-256 inventory, SPDX SBOM, source-commit receipt, and GitHub build
+  attestations.
+- Enabled immutable GitHub releases so published tags and assets cannot be
+  changed in place.
 - Added a static repository preview aligned with the website visual system.
 - Clarified the current release-signing status and Discussions channel.
 - Rejected private-key input, duplicate JSON keys, invalid UTF-8, and stale signed status when a freshness policy is configured.

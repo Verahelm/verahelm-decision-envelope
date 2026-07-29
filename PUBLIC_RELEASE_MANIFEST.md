@@ -1,6 +1,6 @@
 # Public release manifest
 
-Candidate: `verahelm-decision-envelope-public` 0.4.0  
+Candidate: `verahelm-decision-envelope-public` 0.5.0
 Boundary: explicit allowlist; default deny; no repository history.
 
 ## Allowlist
@@ -12,6 +12,7 @@ Only these paths may enter the public repository:
 .github/ISSUE_TEMPLATE/bug.yml
 .github/ISSUE_TEMPLATE/config.yml
 .github/PULL_REQUEST_TEMPLATE.md
+.github/workflows/release.yml
 .github/workflows/verify.yml
 CHANGELOG.md
 CITATION.cff
@@ -54,6 +55,8 @@ fixtures/superseded-status.json
 fixtures/tampered.json
 package.json
 release/SBOM.spdx.json
+release/RELEASE_NOTES.md
+release/REPRODUCIBLE_BUILD.md
 release/SHA256SUMS
 schemas/decision-envelope.schema.json
 schemas/decision-status.schema.json

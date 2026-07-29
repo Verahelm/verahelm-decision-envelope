@@ -1,0 +1,70 @@
+name: release
+
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+
+permissions:
+  contents: write
+  id-token: write
+  attestations: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out the tagged commit
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Verify version and public release
+        shell: bash
+        run: |
+          set -euo pipefail
+          version="${GITHUB_REF_NAME#v}"
+          test "$(node -p "require('./package.json').version")" = "$version"
+          npm test
+      - name: Build deterministic release assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          version="${GITHUB_REF_NAME#v}"
+          archive="verahelm-decision-envelope-${version}.tar.gz"
+          mkdir release-output
+          git archive --format=tar --prefix="verahelm-decision-envelope-${version}/" "$GITHUB_SHA" | gzip -n > "release-output/$archive"
+          git archive --format=tar --prefix="verahelm-decision-envelope-${version}/" "$GITHUB_SHA" | gzip -n > "release-output/rebuild.tar.gz"
+          cmp "release-output/$archive" release-output/rebuild.tar.gz
+          rm release-output/rebuild.tar.gz
+          cp release/SBOM.spdx.json "release-output/verahelm-decision-envelope-${version}.spdx.json"
+          printf '%s\n' "$GITHUB_SHA" > release-output/SOURCE_COMMIT
+          (
+            cd release-output
+            sha256sum "$archive" "verahelm-decision-envelope-${version}.spdx.json" SOURCE_COMMIT > SHA256SUMS
+          )
+      - name: Create draft and attach assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh release create "$GITHUB_REF_NAME" \
+            --repo "$GITHUB_REPOSITORY" \
+            --verify-tag \
+            --target "$GITHUB_SHA" \
+            --title "$GITHUB_REF_NAME" \
+            --notes-file release/RELEASE_NOTES.md \
+            --draft
+          gh release upload "$GITHUB_REF_NAME" release-output/* \
+            --repo "$GITHUB_REPOSITORY"
+      - name: Attest release assets
+        uses: actions/attest-build-provenance@0f67c3f4856b2e3261c31976d6725780e5e4c373
+        with:
+          subject-path: release-output/*
+      - name: Publish immutable release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: gh release edit "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --draft=false
