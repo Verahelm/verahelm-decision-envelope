@@ -159,6 +159,7 @@ effort with no response-time SLA.
 - [API contract](https://www.verahelm.com/api-docs)
 - [Request a non-production testing key](https://www.verahelm.com/access#testing-key)
 - [Decision Envelope specification](SPECIFICATION.md)
+- [GitHub Action contract](docs/ACTION.md)
 - [Threat model](THREAT_MODEL.md)
 - [Versioning policy](VERSIONING.md)
 - [GitHub and attestation integration](docs/INTEGRATIONS.md#github-change-enforcement)

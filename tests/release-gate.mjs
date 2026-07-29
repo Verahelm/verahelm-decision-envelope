@@ -97,6 +97,8 @@ const versioning = await readPublic("VERSIONING.md");
 const license = await readPublic("LICENSE");
 const workflow = await readPublic(".github/workflows/verify.yml");
 const releaseWorkflow = await readPublic(".github/workflows/release.yml");
+const actionMetadata = await readPublic("action.yml");
+const actionContract = await readPublic("docs/ACTION.md");
 assert.equal(packageDocument.version, "0.5.0");
 assert.equal(packageDocument.name, "verahelm-decision-envelope");
 assert.equal(packageDocument.description,
@@ -126,6 +128,16 @@ assert.match(releaseWorkflow, /permissions:\s*\n\s*contents: write\s*\n\s*id-tok
 assert.match(releaseWorkflow, /gh release create[\s\S]*--draft/);
 assert.match(releaseWorkflow, /gh release edit[\s\S]*--draft=false/);
 assert.doesNotMatch(releaseWorkflow, /uses:\s+(?!actions\/(?:checkout|attest-build-provenance)@)/);
+assert.match(actionMetadata, /^name: Verahelm Decision Envelope verifier$/m);
+assert.match(actionMetadata, /^author: Verahelm Holdings LLC$/m);
+assert.match(actionMetadata, /branding:\s*\n\s*icon: check-square\s*\n\s*color: gray-dark/);
+for (const input of [
+  "envelope", "public-key", "public-key-sha256", "status",
+  "status-max-age-seconds", "subject-id", "subject-version", "authority-id",
+  "scope-environment", "scope-change"
+]) assert.match(actionContract, new RegExp(`\\| \\\`${input}\\\` \\|`));
+assert.match(actionContract, /performs offline verification\s+only/);
+assert.match(actionContract, /does not call Verahelm's hosted service/);
 
 for (const name of ["pass", "blocked", "expired", "tampered"]) {
   const fixture = JSON.parse(await readFile(resolve(root, "fixtures", `${name}.json`), "utf8"));

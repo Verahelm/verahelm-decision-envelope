@@ -1,5 +1,6 @@
 name: Verahelm Decision Envelope verifier
 description: Verify one Decision Envelope offline; no evaluation or authorization is performed.
+author: Verahelm Holdings LLC
 inputs:
   envelope:
     description: Repository-relative path to the Decision Envelope

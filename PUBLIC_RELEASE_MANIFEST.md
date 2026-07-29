@@ -37,6 +37,7 @@ adapters/evidence-digest.mjs
 cli/verahelm.mjs
 demo-pr/README.md
 docs/ARCHITECTURE.md
+docs/ACTION.md
 docs/CLI.md
 docs/COMPARISON.md
 docs/INTEGRATIONS.md
