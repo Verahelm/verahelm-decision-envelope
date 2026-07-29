@@ -10,9 +10,6 @@ inputs:
   public-key-sha256:
     description: Trusted SHA-256 fingerprint supplied outside pull-request content
     required: true
-  at:
-    description: Optional RFC 3339 verification time for deterministic tests
-    required: false
   status:
     description: Optional repository-relative signed lifecycle-status document
     required: false

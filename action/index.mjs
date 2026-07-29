@@ -28,7 +28,7 @@ async function repositoryFile(workspace, input, fallback, maximum) {
   }
 }
 
-export async function verifyAction(env = process.env) {
+export async function verifyAction(env = process.env, now = new Date()) {
   const workspace = await realpath(env.GITHUB_WORKSPACE || process.cwd());
   const input = (name) => env[`INPUT_${name.toUpperCase()}`] ??
     env[`INPUT_${name.replaceAll("-", "_").toUpperCase()}`] ?? "";
@@ -64,7 +64,7 @@ export async function verifyAction(env = process.env) {
   return verifyEnvelope(
     parseJsonStrict(documentFile.text),
     publicKeyFile.text,
-    input("at") ? new Date(input("at")) : new Date(),
+    now,
     statusFile ? parseJsonStrict(statusFile.text) : null,
     {
       subjectId,

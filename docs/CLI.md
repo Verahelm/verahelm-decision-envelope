@@ -31,3 +31,6 @@ age against the verification time and fails when the signed observation is too
 old. Without it, the verifier establishes status authenticity but not freshness.
 Expected authority and scope values must come from trusted configuration or
 workflow context, not from the envelope being checked.
+
+`--at` exists only for deterministic local testing. The GitHub Action does not
+expose a verification-time input and always uses the runner's current time.

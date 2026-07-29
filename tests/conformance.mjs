@@ -88,47 +88,47 @@ const actionEnvironment = {
   INPUT_ENVELOPE: "fixtures/pass.json",
   "INPUT_PUBLIC-KEY": "fixtures/fixture-public-key.pem",
   "INPUT_PUBLIC-KEY-SHA256": keyDigest,
-  INPUT_AT: "2026-07-27T12:00:00Z",
   "INPUT_SUBJECT-ID": "synthetic-pr-agent",
   "INPUT_SUBJECT-VERSION": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
   "INPUT_AUTHORITY-ID": "synthetic-customer",
   "INPUT_SCOPE-ENVIRONMENT": "synthetic-staging",
   "INPUT_SCOPE-CHANGE": "fictional-pull-request-42"
 };
-assert.equal((await verifyAction(actionEnvironment)).status, "pass");
+const runAction = (environment) => verifyAction(environment, at);
+assert.equal((await runAction(actionEnvironment)).status, "pass");
 assert.deepEqual(
-  (await verifyAction({ ...actionEnvironment, "INPUT_AUTHORITY-ID": "different-customer" })).errors,
+  (await runAction({ ...actionEnvironment, "INPUT_AUTHORITY-ID": "different-customer" })).errors,
   ["authority_mismatch"]
 );
 assert.deepEqual(
-  (await verifyAction({ ...actionEnvironment, "INPUT_SCOPE-ENVIRONMENT": "synthetic-production" })).errors,
+  (await runAction({ ...actionEnvironment, "INPUT_SCOPE-ENVIRONMENT": "synthetic-production" })).errors,
   ["scope_mismatch"]
 );
 assert.deepEqual(
-  (await verifyAction({ ...actionEnvironment, "INPUT_SCOPE-CHANGE": "fictional-pull-request-99" })).errors,
+  (await runAction({ ...actionEnvironment, "INPUT_SCOPE-CHANGE": "fictional-pull-request-99" })).errors,
   ["scope_mismatch"]
 );
 await assert.rejects(
-  verifyAction({ ...actionEnvironment, "INPUT_AUTHORITY-ID": "" }),
+  runAction({ ...actionEnvironment, "INPUT_AUTHORITY-ID": "" }),
   /authorization_binding_required/
 );
 await assert.rejects(
-  verifyAction({ ...actionEnvironment, "INPUT_PUBLIC-KEY-SHA256": `sha256:${"0".repeat(64)}` }),
+  runAction({ ...actionEnvironment, "INPUT_PUBLIC-KEY-SHA256": `sha256:${"0".repeat(64)}` }),
   /public_key_fingerprint_mismatch/
 );
 await assert.rejects(
-  verifyAction({ ...actionEnvironment, "INPUT_PUBLIC-KEY-SHA256": "" }),
+  runAction({ ...actionEnvironment, "INPUT_PUBLIC-KEY-SHA256": "" }),
   /public_key_fingerprint_required/
 );
 assert.deepEqual(
-  (await verifyAction({
+  (await runAction({
     ...actionEnvironment,
     "INPUT_STATUS-MAX-AGE-SECONDS": "3600"
   })).errors,
   ["status_required"]
 );
 assert.equal(
-  (await verifyAction({
+  (await runAction({
     ...actionEnvironment,
     INPUT_STATUS: "fixtures/revoked-status.json",
     "INPUT_STATUS-MAX-AGE-SECONDS": "3600"
@@ -136,7 +136,7 @@ assert.equal(
   "revoked"
 );
 await assert.rejects(
-  verifyAction({
+  runAction({
     ...actionEnvironment,
     "INPUT_STATUS-MAX-AGE-SECONDS": "-1"
   }),
@@ -251,7 +251,7 @@ futureStatus.signature.value = createSignature(
 assert.equal((await verifyEnvelope(ephemeralEnvelope, ephemeralPublicKey, at, futureStatus)).status, "tampered");
 
 await assert.rejects(
-  verifyAction({
+  runAction({
     ...actionEnvironment,
     INPUT_ENVELOPE: new URL("fixtures/pass.json", root).pathname
   }),

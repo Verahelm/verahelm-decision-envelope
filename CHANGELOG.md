@@ -6,6 +6,7 @@
 - Clarified the current release-signing status and Discussions channel.
 - Rejected private-key input, duplicate JSON keys, invalid UTF-8, and stale signed status when a freshness policy is configured.
 - Aligned timestamp schemas with verifier precision and corrected post-expiry status handling.
+- Removed caller-selectable verification time from the GitHub Action.
 
 ## 0.4.0 — 2026-07-28
 
