@@ -1,6 +1,7 @@
+#!/usr/bin/env node
 // SPDX-License-Identifier: Apache-2.0
 import { createHash } from "node:crypto";
-import { open, readFile, stat } from "node:fs/promises";
+import { open, readFile, realpath, stat } from "node:fs/promises";
 import { pathToFileURL } from "node:url";
 import { parsePublicKey, runCli as runVerifier, validateEnvelope, verifyEnvelope } from "../verifier/verify.mjs";
 import { decodeUtf8, parseJsonBytes } from "../verifier/json.mjs";
@@ -81,7 +82,15 @@ export async function run(args) {
   return result.valid === false ? 2 : 0;
 }
 
-if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+let entryUrl = null;
+if (process.argv[1]) {
+  try {
+    entryUrl = pathToFileURL(await realpath(process.argv[1])).href;
+  } catch {
+    entryUrl = pathToFileURL(process.argv[1]).href;
+  }
+}
+if (entryUrl === import.meta.url) {
   run(process.argv.slice(2)).then((code) => { process.exitCode = code; }).catch(() => {
     process.stderr.write("verahelm: command failed; run with demo, validate, verify, explain, or fingerprint\n");
     process.exitCode = 64;

@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+## 0.7.0 — 2026-07-28
+
+- Added a version-pinned zero-install CLI package route.
+- Added dependency-free package metadata with no lifecycle scripts.
+- Added Ubuntu, macOS, and Windows package tests on Node.js 20, 22, and 24.
+- Added the package archive to checksums and GitHub build attestations.
+
 ## 0.6.0 — 2026-07-28
 
 - Added bounded `status` and string-boolean `valid` Action outputs.

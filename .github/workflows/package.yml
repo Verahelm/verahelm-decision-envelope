@@ -1,0 +1,35 @@
+name: package
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  zero-install:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        node: [20, 22, 24]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 8
+    steps:
+      - name: Check out exact revision
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Select Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: ${{ matrix.node }}
+          cache: false
+      - name: Build package
+        run: npm pack
+      - name: Install without lifecycle scripts
+        run: npm install --ignore-scripts --no-audit --no-fund --no-save ./verahelm-decision-envelope-0.7.0.tgz
+      - name: Run packaged fictional demo
+        run: npx --no-install verahelm-envelope demo

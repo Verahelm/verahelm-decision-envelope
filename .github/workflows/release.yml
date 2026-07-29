@@ -38,11 +38,13 @@ jobs:
           git archive --format=tar --prefix="verahelm-decision-envelope-${version}/" "$GITHUB_SHA" | gzip -n > "release-output/rebuild.tar.gz"
           cmp "release-output/$archive" release-output/rebuild.tar.gz
           rm release-output/rebuild.tar.gz
+          package="$(npm pack --pack-destination release-output --silent)"
+          test "$package" = "verahelm-decision-envelope-${version}.tgz"
           cp release/SBOM.spdx.json "release-output/verahelm-decision-envelope-${version}.spdx.json"
           printf '%s\n' "$GITHUB_SHA" > release-output/SOURCE_COMMIT
           (
             cd release-output
-            sha256sum "$archive" "verahelm-decision-envelope-${version}.spdx.json" SOURCE_COMMIT > SHA256SUMS
+            sha256sum "$archive" "$package" "verahelm-decision-envelope-${version}.spdx.json" SOURCE_COMMIT > SHA256SUMS
           )
       - name: Create draft and attach assets
         env:

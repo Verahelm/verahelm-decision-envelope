@@ -1,7 +1,6 @@
-# Verahelm Decision Envelope v0.6.0
+# Verahelm Decision Envelope v0.7.0
 
-This release adds coarse Action outputs and links public blocked and passing
-fictional pull-request checks.
+This release adds a version-pinned zero-install CLI package route.
 
 Included:
 
@@ -10,7 +9,8 @@ Included:
 - fictional conformance fixtures;
 - a local CLI and digest-only adapter;
 - a five-minute fictional demonstration;
-- bounded `status` and string-boolean `valid` Action outputs.
+- bounded `status` and string-boolean `valid` Action outputs;
+- a dependency-free CLI package with no lifecycle scripts.
 
 The release does not contain Verahelm's hosted decision engine, private methods,
 customer material, or real engine output. Verification authenticates the
@@ -20,9 +20,10 @@ underlying evidence is true or sufficient.
 ## Verify
 
 ```bash
-gh release download v0.6.0 --repo Verahelm/verahelm-decision-envelope
+gh release download v0.7.0 --repo Verahelm/verahelm-decision-envelope
 sha256sum --check SHA256SUMS
-gh attestation verify verahelm-decision-envelope-0.6.0.tar.gz --repo Verahelm/verahelm-decision-envelope
+gh attestation verify verahelm-decision-envelope-0.7.0.tar.gz --repo Verahelm/verahelm-decision-envelope
+gh attestation verify verahelm-decision-envelope-0.7.0.tgz --repo Verahelm/verahelm-decision-envelope
 ```
 
 `SOURCE_COMMIT` identifies the exact source revision. The immutable GitHub

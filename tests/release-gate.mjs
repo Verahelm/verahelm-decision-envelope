@@ -97,9 +97,10 @@ const versioning = await readPublic("VERSIONING.md");
 const license = await readPublic("LICENSE");
 const workflow = await readPublic(".github/workflows/verify.yml");
 const releaseWorkflow = await readPublic(".github/workflows/release.yml");
+const packageWorkflow = await readPublic(".github/workflows/package.yml");
 const actionMetadata = await readPublic("action.yml");
 const actionContract = await readPublic("docs/ACTION.md");
-assert.equal(packageDocument.version, "0.6.0");
+assert.equal(packageDocument.version, "0.7.0");
 assert.equal(packageDocument.name, "verahelm-decision-envelope");
 assert.equal(packageDocument.description,
   "Offline verifier and GitHub Action for Verahelm Decision Envelopes.");
@@ -130,6 +131,17 @@ assert.match(releaseWorkflow, /permissions:\s*\n\s*contents: write\s*\n\s*id-tok
 assert.match(releaseWorkflow, /gh release create[\s\S]*--draft/);
 assert.match(releaseWorkflow, /gh release edit[\s\S]*--draft=false/);
 assert.doesNotMatch(releaseWorkflow, /uses:\s+(?!actions\/(?:checkout|attest-build-provenance)@)/);
+assert.match(packageWorkflow, /actions\/checkout@[0-9a-f]{40}/);
+assert.match(packageWorkflow, /actions\/setup-node@[0-9a-f]{40}/);
+assert.match(packageWorkflow, /os: \[ubuntu-latest, macos-latest, windows-latest\]/);
+assert.match(packageWorkflow, /node: \[20, 22, 24\]/);
+assert.match(packageWorkflow, /npm install --ignore-scripts/);
+assert.match(packageWorkflow, /permissions:\s*\n\s*contents: read/);
+assert.deepEqual(packageDocument.bin, { "verahelm-envelope": "cli/verahelm.mjs" });
+assert.deepEqual(packageDocument.dependencies ?? {}, {});
+for (const name of ["preinstall", "install", "postinstall", "prepare"]) {
+  assert.equal(packageDocument.scripts[name], undefined);
+}
 assert.match(actionMetadata, /^name: Verahelm Decision Envelope verifier$/m);
 assert.match(actionMetadata, /^author: Verahelm Holdings LLC$/m);
 assert.match(actionMetadata, /branding:\s*\n\s*icon: check-square\s*\n\s*color: gray-dark/);

@@ -39,6 +39,16 @@ fields for repositories, source code, prompts, traces, files, datasets, or raw
 records. The fictional quick start runs locally without network access after
 the repository is cloned.
 
+## Run without cloning
+
+```bash
+npm exec --yes --ignore-scripts --package=https://github.com/Verahelm/verahelm-decision-envelope/releases/download/v0.7.0/verahelm-decision-envelope-0.7.0.tgz -- verahelm-envelope demo
+```
+
+The version-pinned package is dependency-free and attached to an immutable,
+checksummed, attested GitHub release. Retrieval uses the network; verification
+does not. See the [package security and verification guide](docs/PACKAGE.md).
+
 ## Add the verifier to a pull request
 
 ```yaml

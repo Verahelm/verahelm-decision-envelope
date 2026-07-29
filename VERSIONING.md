@@ -6,7 +6,7 @@ Verahelm versions public surfaces independently. Similar numbers do not imply a 
 |---|---|---|
 | Hosted API contract | OpenAPI `1.4.0`; base path `v1` | Request and response contract |
 | Decision Envelope schema | `1.0.0` | Canonicalization, signature, binding, and lifecycle fields |
-| Verifier and integration kit | `0.6.0` | CLI, verifier, fixtures, documentation, and adapters |
+| Verifier and integration kit | `0.7.0` | CLI, verifier, package, fixtures, documentation, and adapters |
 | GitHub Action | `0.6.0` | Action inputs, outputs, runtime, and exit behavior |
 | Public result/code vocabulary | Returned `code_set_version`; schema `VH_PUBLIC_RESULT_V1` | Meanings of documented public result codes |
 
