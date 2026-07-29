@@ -194,6 +194,7 @@ daily and rate caps.
 
 ## Documentation
 
+- [Rendered documentation](https://verahelm.github.io/verahelm-decision-envelope/)
 - [API contract](https://www.verahelm.com/api-docs)
 - [Request a non-production testing key](https://www.verahelm.com/access#testing-key)
 - [Decision Envelope specification](SPECIFICATION.md)
