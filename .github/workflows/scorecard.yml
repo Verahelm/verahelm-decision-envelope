@@ -1,6 +1,7 @@
 name: scorecard
 
 on:
+  workflow_dispatch:
   branch_protection_rule:
   schedule:
     - cron: "31 6 * * 1"

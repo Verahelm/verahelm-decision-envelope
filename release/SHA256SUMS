@@ -8,7 +8,7 @@ f04da3ecba18906eeb3edb8ce32e721759e88feb7e7ae0ab4c422a4a299e5238  ./.github/work
 7dea2aab6b65833577ad106ec0795d10e0738901ec54c8e2fe42b151bbec700c  ./.github/workflows/dependency-review.yml
 5f81c35973e0fb25e2ad50b678615de00a306acf26f31a15551762453d5b1659  ./.github/workflows/package.yml
 30d6398a4d488d17b7e877c7f37f039809befac44777233e2313954721d4e125  ./.github/workflows/release.yml
-fded3428bb6d6f9de691ee69a8dca0b63086dd81924b96afc5bd96e88657eedf  ./.github/workflows/scorecard.yml
+be276883467ceb8999d67accb08ff0cdbfd8327e97e57721ce34c27f3d058b69  ./.github/workflows/scorecard.yml
 f628127e27039a70f0987fe221d3c3dbf778d1977922ccc35a9cbcded5304458  ./.github/workflows/verify.yml
 081b5295729901c959ba8933e485eb7f2e58e1d594a191ebb6c7e131d3470810  ./CHANGELOG.md
 eacb813ba214cb7b3eae0f5c51000935e697eba3461583c552e8ec8a150f8d87  ./CITATION.cff
