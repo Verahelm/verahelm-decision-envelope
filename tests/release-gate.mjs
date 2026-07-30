@@ -162,7 +162,7 @@ assert.match(readme, /It does not prove the truth or quality of underlying evide
 assert.match(readme, /## Add the verifier to a pull request/);
 assert.match(readme, /defines no\s+fields for repositories, source code, prompts, traces, files, datasets, or raw\s+records/);
 assert.match(readme, /Verahelm\/verahelm-decision-envelope@[0-9a-f]{40}/);
-const releasedActionPin = "75e51dbc75a6c0f65a773b1beb8cf4ee18353f98";
+const releasedActionPin = "63590721d2c518e42ced1edb34bde754cf126d0a";
 for (const document of [readme, actionContract, releaseGuide, templateWorkflow]) {
   assert.match(document,
     new RegExp(`Verahelm/verahelm-decision-envelope@${releasedActionPin}`));

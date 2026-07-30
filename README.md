@@ -86,7 +86,7 @@ For a required gate, copy the
 `.github/workflows/` and review its trusted variables before enabling it. The
 canonical file is tested as executable workflow source so GitHub expressions
 cannot be altered by documentation rendering. It pins the verifier to
-`Verahelm/verahelm-decision-envelope@75e51dbc75a6c0f65a773b1beb8cf4ee18353f98`.
+`Verahelm/verahelm-decision-envelope@63590721d2c518e42ced1edb34bde754cf126d0a`.
 
 The Action verifies a supplied envelope; it does not call the hosted API or
 issue a decision. Configure `VERAHELM_PUBLIC_KEY_SHA256` as a repository
