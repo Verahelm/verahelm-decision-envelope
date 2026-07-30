@@ -6,8 +6,8 @@ Verahelm versions public surfaces independently. Similar numbers do not imply a 
 |---|---|---|
 | Hosted API contract | OpenAPI `1.4.0`; base path `v1` | Request and response contract |
 | Decision Envelope schema | `1.0.0` | Canonicalization, signature, binding, and lifecycle fields |
-| Verifier and integration kit | `0.10.2` | CLI, verifier, package, fixtures, documentation, and adapters |
-| GitHub Action | release tag `v0.10.2` | Action inputs, outputs, runtime, and exit behavior |
+| Verifier and integration kit | `0.10.3` | CLI, verifier, package, fixtures, documentation, and adapters |
+| GitHub Action | release tag `v0.10.3` | Action inputs, outputs, runtime, and exit behavior |
 | Public result/code vocabulary | Returned `code_set_version`; schema `VH_PUBLIC_RESULT_V1` | Meanings of documented public result codes |
 
 The schema, verifier kit, and Action use semantic versioning:

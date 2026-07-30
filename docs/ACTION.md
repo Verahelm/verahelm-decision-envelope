@@ -10,7 +10,7 @@ Start with the
 [canonical base-controlled workflow](../template/verahelm-change-gate.yml).
 Copy it into `.github/workflows/`, configure its protected variables, and test
 both passing and blocked fictional cases before making it a required check.
-The semantic tag `Verahelm/verahelm-decision-envelope@v0.10.2` is convenient
+The semantic tag `Verahelm/verahelm-decision-envelope@v0.10.3` is convenient
 and immutable for this release.
 
 For maximum source pinning, use the full release commit:
@@ -50,7 +50,7 @@ dependency update policies.
 ```yaml
 - name: Verify
   id: verahelm
-  uses: Verahelm/verahelm-decision-envelope@v0.10.2
+  uses: Verahelm/verahelm-decision-envelope@v0.10.3
   with:
     # Required inputs omitted here; use the complete example above.
 
