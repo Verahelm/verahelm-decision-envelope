@@ -120,6 +120,7 @@ const readPublic = (path) => readFile(resolve(root, path), "utf8");
 const packageDocument = JSON.parse(await readPublic("package.json"));
 const readme = await readPublic("README.md");
 const disclosureChecklist = await readPublic("PUBLIC_DISCLOSURE_CHECKLIST.md");
+const changelog = await readPublic("CHANGELOG.md");
 const versioning = await readPublic("VERSIONING.md");
 const license = await readPublic("LICENSE");
 const notice = await readPublic("NOTICE");
@@ -141,6 +142,10 @@ const releaseSbom = JSON.parse(await readPublic("release/SBOM.spdx.json"));
 assert.equal(packageDocument.version, "0.10.2");
 const releaseVersion = packageDocument.version;
 const escapedReleaseVersion = releaseVersion.replaceAll(".", "\\.");
+assert.match(manifest,
+  new RegExp(`^Candidate: \`verahelm-decision-envelope-public\` ${escapedReleaseVersion}$`, "m"));
+assert.match(changelog, new RegExp(`^## ${escapedReleaseVersion} — 2026-07-30$`, "m"));
+assert.match(changelog, new RegExp(`Updated immutable Action pins to the \`v${escapedReleaseVersion}\` source commit`));
 assert.match(citation, new RegExp(`^version: ${escapedReleaseVersion}$`, "m"));
 assert.equal(releaseSbom.packages[0].versionInfo, releaseVersion);
 assert.equal(releaseSbom.name, `verahelm-decision-envelope-${releaseVersion}`);
