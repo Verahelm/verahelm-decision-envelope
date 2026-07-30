@@ -2,8 +2,8 @@ cff-version: 1.2.0
 message: Cite this specification by title and version.
 title: Verahelm Decision Envelope
 type: software
-version: 0.10.2
-date-released: 2026-07-29
+version: 0.10.3
+date-released: 2026-07-30
 authors:
   - name: Verahelm Holdings LLC
 url: https://www.verahelm.com/

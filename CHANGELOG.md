@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## 0.10.3 — 2026-07-30
+
+- Corrected the embedded public-release metadata so downloaded source archives
+  identify their own release version consistently.
+- Preserved verifier, schema, Action, fixtures, and trust behavior unchanged.
+
 ## 0.10.2 — 2026-07-30
 
 - Updated immutable Action pins to the `v0.10.2` source commit and routed

@@ -8,7 +8,7 @@ unverified.
 Run the version-pinned package without cloning or installing it globally:
 
 ```bash
-npm exec --yes --ignore-scripts --package=https://github.com/Verahelm/verahelm-decision-envelope/releases/download/v0.10.2/verahelm-decision-envelope-0.10.2.tgz -- verahelm-envelope demo
+npm exec --yes --ignore-scripts --package=https://github.com/Verahelm/verahelm-decision-envelope/releases/download/v0.10.3/verahelm-decision-envelope-0.10.3.tgz -- verahelm-envelope demo
 ```
 
 Expected fictional output:
@@ -24,10 +24,10 @@ defines no install, preinstall, postinstall, or prepare script.
 ## Verify before execution
 
 ```bash
-gh release download v0.10.2 --repo Verahelm/verahelm-decision-envelope
+gh release download v0.10.3 --repo Verahelm/verahelm-decision-envelope
 sha256sum --check SHA256SUMS
-gh attestation verify verahelm-decision-envelope-0.10.2.tgz --repo Verahelm/verahelm-decision-envelope
-npm exec --ignore-scripts --package=./verahelm-decision-envelope-0.10.2.tgz -- verahelm-envelope demo
+gh attestation verify verahelm-decision-envelope-0.10.3.tgz --repo Verahelm/verahelm-decision-envelope
+npm exec --ignore-scripts --package=./verahelm-decision-envelope-0.10.3.tgz -- verahelm-envelope demo
 ```
 
 The immutable release and attestation identify the exact source commit and
@@ -38,5 +38,5 @@ Supported environments are Node.js 20, 22, and 24 on current GitHub-hosted
 Ubuntu, macOS, and Windows runners. CLI exit codes remain those documented in
 [the CLI contract](CLI.md).
 
-Upgrades are explicit: replace both occurrences of `0.10.2`, reverify the new
+Upgrades are explicit: replace both occurrences of `0.10.3`, reverify the new
 release, and review its changelog before use.

@@ -139,13 +139,13 @@ const citation = await readPublic("CITATION.cff");
 const packageGuide = await readPublic("docs/PACKAGE.md");
 const releaseNotes = await readPublic("release/RELEASE_NOTES.md");
 const releaseSbom = JSON.parse(await readPublic("release/SBOM.spdx.json"));
-assert.equal(packageDocument.version, "0.10.2");
+assert.equal(packageDocument.version, "0.10.3");
 const releaseVersion = packageDocument.version;
 const escapedReleaseVersion = releaseVersion.replaceAll(".", "\\.");
 assert.match(manifest,
   new RegExp(`^Candidate: \`verahelm-decision-envelope-public\` ${escapedReleaseVersion}$`, "m"));
 assert.match(changelog, new RegExp(`^## ${escapedReleaseVersion} — 2026-07-30$`, "m"));
-assert.match(changelog, new RegExp(`Updated immutable Action pins to the \`v${escapedReleaseVersion}\` source commit`));
+assert.match(changelog, /Corrected the embedded public-release metadata/);
 assert.match(citation, new RegExp(`^version: ${escapedReleaseVersion}$`, "m"));
 assert.equal(releaseSbom.packages[0].versionInfo, releaseVersion);
 assert.equal(releaseSbom.name, `verahelm-decision-envelope-${releaseVersion}`);
@@ -206,7 +206,7 @@ assert.match(packageWorkflow, /actions\/setup-node@820762786026740c76f36085b0efc
 assert.match(packageWorkflow, /os: \[ubuntu-latest, macos-latest, windows-latest\]/);
 assert.match(packageWorkflow, /node: \[20, 22, 24\]/);
 assert.match(packageWorkflow,
-  /tar -xzf \.\/verahelm-decision-envelope-0\.10\.2\.tgz -C package-test/);
+  new RegExp(`tar -xzf \\.\\/verahelm-decision-envelope-${escapedReleaseVersion}\\.tgz -C package-test`));
 assert.match(packageWorkflow,
   /node \.\/package-test\/package\/cli\/verahelm\.mjs demo/);
 assert.doesNotMatch(packageWorkflow, /\bnpm (?:ci|install|update)\b|\bnpx\b/);

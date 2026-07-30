@@ -1,9 +1,8 @@
-# Verahelm Decision Envelope v0.10.2
+# Verahelm Decision Envelope v0.10.3
 
-This maintenance release moves the verification Action to Node.js 24, fixes
-rendered workflow guidance, and clarifies revision binding and integration
-responsibilities. Verifier behavior and the public envelope contract are
-unchanged.
+This maintenance release corrects the version metadata embedded in downloadable
+source archives. Verifier, schema, Action, fixture, trust, and public envelope
+behavior are unchanged.
 
 Included:
 
@@ -38,10 +37,10 @@ underlying evidence is true or sufficient.
 ## Verify
 
 ```bash
-gh release download v0.10.2 --repo Verahelm/verahelm-decision-envelope
+gh release download v0.10.3 --repo Verahelm/verahelm-decision-envelope
 sha256sum --check SHA256SUMS
-gh attestation verify verahelm-decision-envelope-0.10.2.tar.gz --repo Verahelm/verahelm-decision-envelope
-gh attestation verify verahelm-decision-envelope-0.10.2.tgz --repo Verahelm/verahelm-decision-envelope
+gh attestation verify verahelm-decision-envelope-0.10.3.tar.gz --repo Verahelm/verahelm-decision-envelope
+gh attestation verify verahelm-decision-envelope-0.10.3.tgz --repo Verahelm/verahelm-decision-envelope
 ```
 
 `SOURCE_COMMIT` identifies the exact source revision. The immutable GitHub
