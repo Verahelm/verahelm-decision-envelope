@@ -4,6 +4,8 @@ title: Verahelm Decision Envelope
 
 # Signed change decisions for pull requests
 
+An authorization for one revision must not authorize another.
+
 Verahelm verifies whether a signed authorization record is valid for the exact
 pull request or agent change under review.
 

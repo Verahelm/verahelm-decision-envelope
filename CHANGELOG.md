@@ -2,8 +2,15 @@
 
 ## Unreleased
 
+## 0.10.2 — 2026-07-29
+
 - Updated immutable Action pins to the `v0.10.1` source commit and routed
   vulnerability reports directly to GitHub private reporting.
+- Moved the verification Action to the Node.js 24 runtime.
+- Replaced render-sensitive workflow snippets with one tested canonical
+  workflow and added drift checks for required GitHub expressions.
+- Clarified revision binding and the responsibilities of evidence producers,
+  the hosted issuer, offline verification, and customer enforcement.
 
 ## 0.10.1 — 2026-07-29
 

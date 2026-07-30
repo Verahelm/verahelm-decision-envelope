@@ -1,6 +1,9 @@
 # Verahelm Decision Envelope
 
-Verahelm verifies whether a signed authorization record is valid for the exact pull request or agent change under review.
+An authorization for one revision must not authorize another.
+
+Verahelm verifies whether a signed authorization record is valid for the exact
+pull request or agent change under review.
 
 [Inspect a fictional blocked pull request](https://github.com/Verahelm/verahelm-decision-envelope-demo/pull/1)
 ·
@@ -40,8 +43,8 @@ additional endpoint or disclosure of repository content is required.
 
 [Request a non-production testing key](https://www.verahelm.com/access#testing-key)
 after the fictional local demo succeeds.
-Eligible testing keys provide 21 lifetime units—up to seven base three-unit
-pull-request or agent-change gates. No card is required.
+Eligible testing keys currently provide 21 lifetime units—up to seven base
+three-unit pull-request or agent-change gates. No card is required.
 
 ![Verahelm Decision Envelope: signed, subject-bound, expiring change authorization](docs/assets/repository-preview.svg)
 
@@ -68,7 +71,7 @@ upload raw evidence or claim native verification by Verahelm.
 ## Run without cloning
 
 ```bash
-npm exec --yes --ignore-scripts --package=https://github.com/Verahelm/verahelm-decision-envelope/releases/download/v0.10.1/verahelm-decision-envelope-0.10.1.tgz -- verahelm-envelope demo
+npm exec --yes --ignore-scripts --package=https://github.com/Verahelm/verahelm-decision-envelope/releases/download/v0.10.2/verahelm-decision-envelope-0.10.2.tgz -- verahelm-envelope demo
 ```
 
 The version-pinned package is dependency-free and attached to an immutable,
@@ -78,31 +81,12 @@ does not. See the [package security and verification guide](docs/PACKAGE.md).
 ## Add the verifier to a pull request
 
 [Install the verification-only Action from GitHub Marketplace](https://github.com/marketplace/actions/verahelm-decision-envelope-verifier).
-For a required gate, pin the full reviewed commit SHA as shown below.
-
-```yaml
-permissions:
-  contents: read
-
-steps:
-  - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-  - name: Bind expected pull-request subject
-    id: subject
-    env:
-      SUBJECT_ID: ${{ github.repository }}
-      SUBJECT_REVISION: ${{ github.event.pull_request.head.sha }}
-    run: printf 'version=sha256:%s\n' "$(printf '%s' \"$SUBJECT_ID@$SUBJECT_REVISION\" | sha256sum | cut -d' ' -f1)" >> "$GITHUB_OUTPUT"
-  - uses: Verahelm/verahelm-decision-envelope@75e51dbc75a6c0f65a773b1beb8cf4ee18353f98
-    with:
-      envelope: path/to/decision-envelope.json
-      public-key: path/to/public-key.pem
-      public-key-sha256: ${{ vars.VERAHELM_PUBLIC_KEY_SHA256 }}
-      subject-id: ${{ github.repository }}
-      subject-version: ${{ steps.subject.outputs.version }}
-      authority-id: ${{ vars.VERAHELM_AUTHORITY_ID }}
-      scope-environment: ${{ vars.VERAHELM_SCOPE_ENVIRONMENT }}
-      scope-change: pull-request-${{ github.event.pull_request.number }}
-```
+For a required gate, copy the
+[canonical base-controlled workflow](template/verahelm-change-gate.yml) into
+`.github/workflows/` and review its trusted variables before enabling it. The
+canonical file is tested as executable workflow source so GitHub expressions
+cannot be altered by documentation rendering. It pins the verifier to
+`Verahelm/verahelm-decision-envelope@75e51dbc75a6c0f65a773b1beb8cf4ee18353f98`.
 
 The Action verifies a supplied envelope; it does not call the hosted API or
 issue a decision. Configure `VERAHELM_PUBLIC_KEY_SHA256` as a repository

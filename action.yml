@@ -44,7 +44,7 @@ outputs:
   valid:
     description: Strict string boolean; true only when status is pass
 runs:
-  using: node20
+  using: node24
   main: action/index.mjs
 branding:
   icon: check-square

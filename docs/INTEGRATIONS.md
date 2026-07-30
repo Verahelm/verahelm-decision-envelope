@@ -4,6 +4,21 @@ Decision Envelopes complement evidence producers. The local adapter emits a
 SHA-256 reference; it does not copy, parse, upload, retain, or judge the
 artifact.
 
+## Responsibility by stage
+
+| Stage | Responsible component | Public boundary |
+|---|---|---|
+| Generate evidence | Promptfoo, OPA, scanners, provenance systems, or another customer-controlled producer | Produces and natively validates its own result. |
+| Make a decision | Verahelm hosted API | Evaluates bounded caller-supplied summaries; it does not independently prove every assertion. |
+| Sign the record | Authorized Decision Envelope issuer | Signs the declared subject, revision, authority, scope, conditions, and lifecycle fields. |
+| Verify the record | Public Verahelm verifier or verification-only Action | Checks signature, bindings, lifecycle, and trusted configuration offline. |
+| Enforce the result | Customer-controlled GitHub ruleset, CI pipeline, MCP gateway, or deployment system | Applies local policy and blocks when required verification fails. |
+| Maintain freshness | Issuer status service and customer verification policy | Revocation or supersession requires sufficiently fresh signed status when offline state may be stale. |
+
+Digest creation does not transfer responsibility between these stages. In
+particular, hashing an evaluation, policy result, or attestation does not verify
+its producer, authenticity, or meaning.
+
 | Producer class | Public-safe input | Envelope binding |
 |---|---|---|
 | Evaluation and testing | Immutable report digest; suite identifier; tested subject version | `evidence_refs`, `subject.version` |

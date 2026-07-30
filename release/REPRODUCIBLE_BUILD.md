@@ -9,9 +9,9 @@ byte equality before publication.
 Requires GitHub CLI 2.49 or later and a SHA-256 utility.
 
 ```bash
-gh release download v0.10.1 --repo Verahelm/verahelm-decision-envelope
+gh release download v0.10.2 --repo Verahelm/verahelm-decision-envelope
 sha256sum --check SHA256SUMS
-gh attestation verify verahelm-decision-envelope-0.10.1.tar.gz --repo Verahelm/verahelm-decision-envelope
+gh attestation verify verahelm-decision-envelope-0.10.2.tar.gz --repo Verahelm/verahelm-decision-envelope
 ```
 
 Compare the downloaded `SOURCE_COMMIT` with the release target shown by GitHub.
@@ -24,7 +24,7 @@ asset; it is not an independent security review.
 From a clean checkout of the `SOURCE_COMMIT` value:
 
 ```bash
-version=0.10.1
+version=0.10.2
 git archive --format=tar --prefix="verahelm-decision-envelope-${version}/" HEAD | gzip -n > rebuilt.tar.gz
 sha256sum rebuilt.tar.gz
 ```

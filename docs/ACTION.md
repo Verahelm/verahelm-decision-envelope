@@ -6,20 +6,12 @@ pull-request code, or send envelope data over the network.
 
 ## Minimal use
 
-The semantic tag is convenient and immutable for this release:
-
-```yaml
-- uses: Verahelm/verahelm-decision-envelope@v0.10.1
-  with:
-    envelope: decision-envelope.json
-    public-key: decision-envelope-public-key.pem
-    public-key-sha256: ${{ vars.VERAHELM_PUBLIC_KEY_SHA256 }}
-    subject-id: ${{ github.repository }}
-    subject-version: ${{ steps.subject.outputs.version }}
-    authority-id: ${{ vars.VERAHELM_AUTHORITY_ID }}
-    scope-environment: ${{ vars.VERAHELM_SCOPE_ENVIRONMENT }}
-    scope-change: pull-request-${{ github.event.pull_request.number }}
-```
+Start with the
+[canonical base-controlled workflow](../template/verahelm-change-gate.yml).
+Copy it into `.github/workflows/`, configure its protected variables, and test
+both passing and blocked fictional cases before making it a required check.
+The semantic tag `Verahelm/verahelm-decision-envelope@v0.10.2` is convenient
+and immutable for this release.
 
 For maximum source pinning, use the full release commit:
 
@@ -58,7 +50,7 @@ dependency update policies.
 ```yaml
 - name: Verify
   id: verahelm
-  uses: Verahelm/verahelm-decision-envelope@v0.10.1
+  uses: Verahelm/verahelm-decision-envelope@v0.10.2
   with:
     # Required inputs omitted here; use the complete example above.
 

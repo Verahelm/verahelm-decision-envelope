@@ -105,6 +105,8 @@ for (const path of files) {
     for (const pattern of executablePatterns) assert(!pattern.test(content), `egress/subprocess surface: ${name}`);
   }
   if (name.endsWith(".md")) {
+    assert.doesNotMatch(content, /\$\{\{/u,
+      `GitHub expression must remain in canonical workflow source, not rendered Markdown: ${name}`);
     for (const match of content.matchAll(/\[[^\]]+\]\(([^)]+)\)/g)) {
       const target = match[1].replace(/^<|>$/g, "").split("#", 1)[0];
       if (target && !/^(?:https?:|mailto:)/.test(target)) localLinks.push(resolve(dirname(path), target));
@@ -132,11 +134,28 @@ const actionContract = await readPublic("docs/ACTION.md");
 const releaseGuide = await readPublic("docs/RELEASES.md");
 const templateWorkflow = await readPublic("template/verahelm-change-gate.yml");
 const repositoryPreview = await readPublic("docs/assets/repository-preview.svg");
-assert.equal(packageDocument.version, "0.10.1");
+const citation = await readPublic("CITATION.cff");
+const packageGuide = await readPublic("docs/PACKAGE.md");
+const releaseNotes = await readPublic("release/RELEASE_NOTES.md");
+const releaseSbom = JSON.parse(await readPublic("release/SBOM.spdx.json"));
+assert.equal(packageDocument.version, "0.10.2");
+const releaseVersion = packageDocument.version;
+const escapedReleaseVersion = releaseVersion.replaceAll(".", "\\.");
+assert.match(citation, new RegExp(`^version: ${escapedReleaseVersion}$`, "m"));
+assert.equal(releaseSbom.packages[0].versionInfo, releaseVersion);
+assert.equal(releaseSbom.name, `verahelm-decision-envelope-${releaseVersion}`);
+assert.match(releaseNotes, new RegExp(`^# Verahelm Decision Envelope v${escapedReleaseVersion}$`, "m"));
+assert(versioning.includes(`Verifier and integration kit | \`${releaseVersion}\``));
+assert(versioning.includes(`GitHub Action | release tag \`v${releaseVersion}\``));
+assert(actionContract.includes(`Verahelm/verahelm-decision-envelope@v${releaseVersion}`));
+assert(packageGuide.includes(
+  `releases/download/v${releaseVersion}/verahelm-decision-envelope-${releaseVersion}.tgz`));
+assert(packageWorkflow.includes(`verahelm-decision-envelope-${releaseVersion}.tgz`));
 assert.equal(packageDocument.name, "verahelm-decision-envelope");
 assert.equal(packageDocument.description,
   "Offline verifier and GitHub Action for Verahelm Decision Envelopes.");
-assert.match(readme, /^# Verahelm Decision Envelope\n\nVerahelm verifies whether a signed authorization record is valid/u);
+assert.match(readme,
+  /^# Verahelm Decision Envelope\n\nAn authorization for one revision must not authorize another\.\n\nVerahelm verifies whether a signed authorization record is valid/u);
 assert.match(readme, /git clone --depth 1 https:\/\/github\.com\/Verahelm\/verahelm-decision-envelope\.git && cd verahelm-decision-envelope && node cli\/verahelm\.mjs demo/);
 assert.match(readme, /\{"status":"demo_complete","results":\[\{"fixture":"pass","status":"pass"\},\{"fixture":"blocked","status":"blocked"\},\{"fixture":"expired","status":"expired"\},\{"fixture":"tampered","status":"tampered"\}\]\}/);
 assert.match(readme, /It does not prove the truth or quality of underlying evidence/);
@@ -182,7 +201,7 @@ assert.match(packageWorkflow, /actions\/setup-node@820762786026740c76f36085b0efc
 assert.match(packageWorkflow, /os: \[ubuntu-latest, macos-latest, windows-latest\]/);
 assert.match(packageWorkflow, /node: \[20, 22, 24\]/);
 assert.match(packageWorkflow,
-  /tar -xzf \.\/verahelm-decision-envelope-0\.10\.1\.tgz -C package-test/);
+  /tar -xzf \.\/verahelm-decision-envelope-0\.10\.2\.tgz -C package-test/);
 assert.match(packageWorkflow,
   /node \.\/package-test\/package\/cli\/verahelm\.mjs demo/);
 assert.doesNotMatch(packageWorkflow, /\bnpm (?:ci|install|update)\b|\bnpx\b/);
@@ -212,7 +231,14 @@ assert.match(actionMetadata, /^name: Verahelm Decision Envelope verifier$/m);
 assert.match(actionMetadata, /^author: Verahelm Holdings LLC$/m);
 assert.match(actionMetadata, /branding:\s*\n\s*icon: check-square\s*\n\s*color: gray-dark/);
 assert.match(actionMetadata, /outputs:\s*\n\s*status:[\s\S]*\n\s*valid:/);
+assert.match(actionMetadata, /runs:\s*\n\s*using: node24/);
 assert.match(actionContract, /steps\.verahelm\.outputs\.valid == 'true'/);
+for (const expression of [
+  "SUBJECT_ID: ${{ github.repository }}",
+  "SUBJECT_REVISION: ${{ github.event.pull_request.head.sha }}",
+  "subject-version: ${{ steps.subject.outputs.version }}",
+  "scope-change: pull-request-${{ github.event.pull_request.number }}"
+]) assert(templateWorkflow.includes(expression), `canonical workflow expression missing: ${expression}`);
 for (const input of [
   "envelope", "public-key", "public-key-sha256", "status",
   "trust-bundle", "trust-bundle-sha256",
